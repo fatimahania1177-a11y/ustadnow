@@ -1,132 +1,118 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UstadNow - Olive Green + Cream - Pakistan #1 Service</title>
+<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UstadNow - Pakistan #1</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-<style>
-:root{--olive:#556B2F;--olive-dark:#3d4a1e;--cream:#FFF8DC;--cream-light:#FFFEF7;--cream-card:#FFFEF7}
-body{background:var(--cream)}.bg-olive{background:var(--olive)}.bg-olive-dark{background:var(--olive-dark)}
-.text-olive{color:var(--olive)}.text-olive-dark{color:var(--olive-dark)}.bg-cream{background:var(--cream)}
-.bg-cream-light{background:var(--cream-light)}.bg-cream-card{background:var(--cream-card)}
-.border-olive{border-color:var(--olive)}.btn-olive{background:var(--olive);color:#FFFDD0}
-</style>
-</head>
-<body class="bg-[#FFF8DC]">
+<style>body{background:#FFF8DC}</style>
+</head><body>
 
 <header class="bg-[#FFFEF7] shadow sticky top-0 z-50 border-b border-[#e8e0c0]">
 <div class="max-w-7xl mx-auto px-3 py-3 flex justify-between items-center">
 <div class="flex items-center gap-3">
-<div class="bg-[#556B2F] text-white w-14 h-14 rounded-xl flex items-center justify-center font-black text-2xl shadow-lg">U</div>
-<div class="flex flex-col"><span class="font-black text-[26px] leading-none text-[#3d4a1e] tracking-tight">UstadNow</span><span class="bg-[#e8e0c0] text-[#3d4a1e] text-[9px] px-2 py-0.5 rounded-full font-bold mt-1 w-fit">PAKISTAN • 35 CITIES</span></div>
+<div class="bg-[#556B2F] text-white w-16 h-16 rounded-xl flex items-center justify-center font-black text-3xl shadow-lg">U</div>
+<div><p class="font-black text-[28px] leading-none text-[#3d4a1e]">UstadNow</p><span class="bg-[#e8e0c0] text-[#3d4a1e] text-[9px] px-2 py-0.5 rounded-full font-bold">PAKISTAN • 35 CITIES</span></div>
 </div>
 <div class="flex items-center gap-2">
-<select id="citySelect" class="border-2 border-[#556B2F] rounded-full px-3 py-2 text-xs font-bold bg-[#FFFEF7]"></select>
-<button onclick="openServicesMenu()" class="w-11 h-11 rounded-full bg-[#556B2F] text-white flex items-center justify-center text-2xl font-bold shadow">⋮</button>
-</div>
-</div>
-</header>
+<select id="citySelect" class="border-2 border-[#556B2F] rounded-full px-3 py-2.5 text-xs font-bold bg-[#FFFEF7]"></select>
+<button onclick="openServicesMenu()" class="w-12 h-12 rounded-full bg-[#556B2F] text-white flex items-center justify-center text-3xl font-bold">⋮</button>
+</div></div></header>
 
+<!-- UPAR WALE 3 BOXES - AB TOP PE -->
+<div class="max-w-7xl mx-auto px-3 mt-4">
+<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
+<div class="bg-[#FFFEF7] border border-[#e8e0c0] rounded-2xl p-4 shadow-sm">
+<p class="font-bold text-[#3d4a1e] text-sm">🔴 Live Tracking</p><p class="text-[11px] text-gray-500">No active booking</p>
+<button onclick="openLiveTrack()" class="w-full mt-3 bg-[#556B2F] text-white py-2.5 rounded-full text-xs font-bold">Track My Ustad</button>
+</div>
+<div class="bg-[#FFFEF7] border border-[#e8e0c0] rounded-2xl p-4 shadow-sm">
+<p class="font-bold text-[#3d4a1e] text-sm">⭐ 4.8 Reviews</p><p class="text-[11px] text-gray-500">12,847 reviews</p>
+<button onclick="openReviews()" class="w-full mt-3 bg-[#e8e0c0] text-[#3d4a1e] py-2.5 rounded-full text-xs font-bold">Read Reviews</button>
+</div>
+<div class="bg-[#FFFEF7] border border-[#e8e0c0] rounded-2xl p-4 shadow-sm">
+<p class="font-bold text-[#3d4a1e] text-sm">🛠️ Ustad Reg</p><p class="text-[11px] text-gray-500">Earn Rs 50k/month</p>
+<button onclick="openUstadReg()" class="w-full mt-3 bg-black text-white py-2.5 rounded-full text-xs font-bold">Register - 0306-5005474</button>
+</div>
+</div>
+</div>
+
+<section class="py-5 text-center"><h1 class="text-[28px] md:text-4xl font-black text-[#3d4a1e]">Pakistan's #1 <span id="cityName">Lahore</span> Service</h1>
+<p class="text-xs text-[#556B2F] mt-1 font-bold">15 Services • Same Day • Baqi sab 3 dots ⋮ menu me</p></section>
+
+<div class="max-w-7xl mx-auto px-3 pb-8">
+<div id="serviceGrid" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
+<div id="liveTrackingBox" class="mt-4 bg-white border-2 border-[#556B2F] rounded-xl p-3 text-xs hidden"></div>
+</div>
+
+<!-- 3 DOTS MENU - ALL 15 SERVICES -->
 <div id="servicesMenu" class="fixed inset-0 bg-black/50 hidden z-[95]" onclick="closeServicesMenu()">
-<div class="absolute right-0 top-0 h-full w-[88%] max-w-[340px] bg-[#FFFEF7] shadow-2xl overflow-auto" onclick="event.stopPropagation()">
+<div class="absolute right-0 top-0 h-full w-[90%] max-w-[360px] bg-[#FFFEF7] shadow-2xl overflow-auto" onclick="event.stopPropagation()">
 <div class="p-4 bg-[#3d4a1e] text-[#FFF8DC] flex justify-between items-center"><h3 class="font-black text-sm">ALL 15 SERVICES - <span id="menuCity">Lahore</span></h3><button onclick="closeServicesMenu()" class="w-8 h-8 bg-white/20 rounded-full">✕</button></div>
-<div id="menuServicesList" class="p-2"></div>
-<div class="p-3 border-t border-[#e8e0c0] grid grid-cols-2 gap-2">
+<div id="menuServicesList"></div>
+<div class="p-3 border-t grid grid-cols-2 gap-2">
 <button onclick="openUstadReg();closeServicesMenu()" class="bg-[#556B2F] text-white py-2.5 rounded-full text-xs font-bold">Become Ustad</button>
-<button onclick="openGoogleLogin();closeServicesMenu()" class="border border-[#556B2F] text-[#3d4a1e] py-2.5 rounded-full text-xs font-bold">Sign in</button>
-<button onclick="openAdmin();closeServicesMenu()" class="bg-black text-white py-2.5 rounded-full text-xs font-bold">Admin</button>
 <a href="https://wa.me/923065005474" class="bg-green-600 text-white py-2.5 rounded-full text-xs font-bold text-center">WhatsApp</a>
 </div></div></div>
 
-<section class="py-6 text-center"><h1 class="text-[30px] md:text-4xl font-black text-[#3d4a1e]">Pakistan's #1 <span id="cityName">Lahore</span> Service</h1>
-<p class="text-sm text-[#556B2F] mt-1 font-bold">15 Services • Same Day • 0306-5005474</p></section>
-
-<div class="max-w-7xl mx-auto px-3 pb-10">
-<div id="serviceGrid" class="grid grid-cols-2 gap-3"></div>
-<div class="grid grid-cols-1 md:grid-cols-3 gap-3 mt-6">
-<div class="bg-[#FFFEF7] border border-[#e8e0c0] rounded-2xl p-4"><p class="font-bold text-[#3d4a1e]">🔴 Live Tracking</p><p class="text-xs text-[#556B2F]">No active booking</p><button onclick="openLiveTrack()" class="w-full mt-3 bg-[#556B2F] text-white py-2 rounded-full text-xs font-bold">Track My Ustad</button></div>
-<div class="bg-[#FFFEF7] border border-[#e8e0c0] rounded-2xl p-4"><p class="font-bold text-[#3d4a1e]">⭐ 4.8 Reviews</p><p class="text-xs text-[#556B2F]">12,847 reviews</p><button onclick="openReviews()" class="w-full mt-3 bg-[#e8e0c0] text-[#3d4a1e] py-2 rounded-full text-xs font-bold">Read Reviews</button></div>
-<div class="bg-[#FFFEF7] border border-[#e8e0c0] rounded-2xl p-4"><p class="font-bold text-[#3d4a1e]">🛠️ Ustad Reg</p><p class="text-xs text-[#556B2F]">Earn Rs 50k/month</p><button onclick="openUstadReg()" class="w-full mt-3 bg-[#556B2F] text-white py-2 rounded-full text-xs font-bold">Register</button></div>
-</div>
-<div id="liveTrackingBox" class="mt-4 bg-white border border-[#556B2F] rounded-xl p-3 text-xs"></div>
-</div>
-
-<div id="ustadRegModal" class="fixed inset-0 bg-[#FFF8DC] hidden overflow-auto z-[90]"><div class="max-w-2xl mx-auto p-4">
-<div class="flex justify-between border-b pb-3"><h2 class="text-xl font-black text-[#3d4a1e]">Become Ustad</h2><button onclick="closeUstadReg()" class="bg-[#3d4a1e] text-white px-4 py-2 rounded">Close</button></div>
-<div class="grid md:grid-cols-2 gap-3 mt-4"><input id="uName" placeholder="Full Name *" class="border rounded-lg p-3 text-sm bg-[#FFFEF7]"><input id="uPhone" placeholder="Phone 0306..." class="border rounded-lg p-3 text-sm bg-[#FFFEF7]"><select id="uCity" class="border rounded-lg p-3 text-sm bg-[#FFFEF7]"></select><select id="uSkill" class="border rounded-lg p-3 text-sm bg-[#FFFEF7]"><option>Electrician</option><option>Plumber</option><option>AC Technician</option><option>Carpenter</option><option>Painter</option><option>Cleaner</option><option>Mason</option><option>Welder</option></select><input id="uRate" placeholder="Daily Rate 1500" class="border rounded-lg p-3 text-sm bg-[#FFFEF7]"><input id="uArea" placeholder="Area" class="border rounded-lg p-3 text-sm bg-[#FFFEF7] md:col-span-2"></div>
-<button onclick="submitUstad()" class="w-full mt-4 bg-[#556B2F] text-white py-3 rounded-lg font-bold">Submit - 0306-5005474</button></div></div>
-
-<div id="reviewsModal" class="fixed inset-0 bg-[#FFF8DC] hidden overflow-auto z-[90]"><div class="max-w-3xl mx-auto p-4"><div class="flex justify-between"><h2 class="text-xl font-black">Reviews</h2><button onclick="closeReviews()" class="bg-[#3d4a1e] text-white px-4 py-2 rounded">Close</button></div><div id="reviewsList" class="mt-4 space-y-3"></div></div></div>
-
-<div id="liveTrackModal" class="fixed inset-0 bg-[#FFF8DC] hidden overflow-auto z-[90]"><div class="max-w-2xl mx-auto p-4"><div class="flex justify-between"><h2 class="text-xl font-black">🔴 Live Tracking</h2><button onclick="closeLiveTrack()" class="bg-[#3d4a1e] text-white px-4 py-2 rounded">Close</button></div><div class="mt-6 bg-[#FFFEF7] border rounded-2xl h-64 flex items-center justify-center"><div class="text-center"><p class="text-4xl">🗺️</p><p class="font-bold">Live Map - <span id="cityTrack">Lahore</span></p><p class="text-xs">0306-5005474</p></div></div></div></div>
-
-<div id="loginModal" class="fixed inset-0 bg-[#FFF8DC] hidden z-[100] p-4"><div class="min-h-screen flex items-center justify-center"><div class="w-full max-w-[400px] bg-[#FFFEF7] border rounded-[20px] p-6"><div class="text-xl font-bold text-[#3d4a1e]">UstadNow</div><h1 class="text-2xl mt-4 font-bold">Sign in</h1><div id="loginStep1" class="mt-4"><input id="googleEmail" placeholder="Email or phone" class="w-full border border-[#556B2F] rounded px-4 py-3 bg-[#FFFEF7]"><button onclick="googleNext()" class="mt-4 bg-[#556B2F] text-white px-6 py-2 rounded-full text-sm float-right">Next</button></div><div id="loginStep2" class="hidden mt-4"><div class="border rounded-full px-3 py-1 w-fit text-xs"><span id="showEmail"></span></div><input id="googlePass" type="password" placeholder="Password" class="w-full border rounded px-4 py-3 mt-3"><button onclick="doGoogleLogin()" class="mt-4 bg-[#556B2F] text-white px-6 py-2 rounded-full text-sm float-right">Next</button></div><select id="loginCityGoogle" class="w-full border rounded-lg p-2 mt-16 text-sm"></select></div></div></div>
-
-<div id="bookModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50"><div class="bg-[#FFFEF7] rounded-2xl p-6 w-full max-w-md border"><h3 id="bTitle" class="font-black text-[#3d4a1e]"></h3><input id="cName" placeholder="Naam *" class="w-full border rounded-lg p-3 mt-3"><input id="cPhone" placeholder="Phone *" class="w-full border rounded-lg p-3 mt-2"><select id="cCity" class="w-full border rounded-lg p-3 mt-2"></select><select id="cArea" class="w-full border rounded-lg p-3 mt-2"></select><button onclick="confirmBook()" class="w-full bg-[#556B2F] text-white py-3 rounded-lg mt-3 font-bold">Confirm - 0306-5005474</button><button onclick="closeBook()" class="w-full bg-[#e8e0c0] py-2 rounded mt-2">Cancel</button></div></div>
-
-<div id="adminPage" class="fixed inset-0 bg-[#FFF8DC] hidden overflow-auto z-[80]"><div class="max-w-6xl mx-auto p-4"><div class="flex justify-between"><h2 class="text-xl font-black">Admin</h2><button onclick="closeAdmin()" class="bg-[#3d4a1e] text-white px-4 py-2 rounded">Close</button></div><div id="adminList" class="mt-4"></div></div></div>
+<!-- MODALS -->
+<div id="ustadRegModal" class="fixed inset-0 bg-[#FFF8DC] hidden z-[90] p-4 overflow-auto"><div class="max-w-xl mx-auto"><div class="flex justify-between border-b pb-3"><h2 class="font-black text-xl text-[#3d4a1e]">Become Ustad</h2><button onclick="closeUstadReg()" class="bg-[#3d4a1e] text-white px-4 py-2 rounded-full">✕</button></div><input id="uName" placeholder="Full Name *" class="w-full border rounded-lg p-3 mt-4 bg-[#FFFEF7]"><input id="uPhone" placeholder="Phone 0306..." class="w-full border rounded-lg p-3 mt-2 bg-[#FFFEF7]"><select id="uCity" class="w-full border rounded-lg p-3 mt-2 bg-[#FFFEF7]"></select><select id="uSkill" class="w-full border rounded-lg p-3 mt-2 bg-[#FFFEF7]"><option>Electrician</option><option>Plumber</option><option>AC Technician</option><option>Carpenter</option><option>Painter</option><option>Cleaner</option></select><button onclick="submitUstad()" class="w-full bg-[#556B2F] text-white py-3 rounded-lg mt-4 font-bold">Submit - 0306-5005474</button></div></div>
+<div id="reviewsModal" class="fixed inset-0 bg-[#FFF8DC] hidden z-[90] p-4 overflow-auto"><div class="max-w-2xl mx-auto"><div class="flex justify-between"><h2 class="font-black text-xl">⭐ Reviews (4.8)</h2><button onclick="closeReviews()" class="bg-[#3d4a1e] text-white px-4 py-2 rounded-full">✕</button></div><div id="reviewsList" class="mt-4 space-y-2"></div></div></div>
+<div id="liveTrackModal" class="fixed inset-0 bg-[#FFF8DC] hidden z-[90] p-4"><div class="max-w-xl mx-auto"><div class="flex justify-between"><h2 class="font-black text-xl">🔴 Live Tracking - <span id="cityTrack">Lahore</span></h2><button onclick="closeLiveTrack()" class="bg-[#3d4a1e] text-white px-4 py-2 rounded-full">✕</button></div><div class="mt-6 bg-[#FFFEF7] border-2 rounded-2xl h-64 flex items-center justify-center"><div class="text-center"><p class="text-4xl">🗺️</p><p class="font-bold">Ustad on the way - Call 0306-5005474</p></div></div></div></div>
+<div id="bookModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50"><div class="bg-[#FFFEF7] rounded-2xl p-6 w-full max-w-md border-2 border-[#e8e0c0]"><h3 id="bTitle" class="font-black text-[#3d4a1e]"></h3><input id="cName" placeholder="Naam *" class="w-full border rounded-lg p-3 mt-3"><input id="cPhone" placeholder="Phone *" class="w-full border rounded-lg p-3 mt-2"><select id="cCity" class="w-full border rounded-lg p-3 mt-2"></select><select id="cArea" class="w-full border rounded-lg p-3 mt-2"></select><button onclick="confirmBook()" class="w-full bg-[#556B2F] text-white py-3 rounded-lg mt-3 font-bold">Confirm Booking</button><button onclick="closeBook()" class="w-full bg-[#e8e0c0] py-2 rounded mt-2">Cancel</button></div></div>
 
 <script>
 const WHATSAPP="923065005474";
-const cities=["Karachi","Lahore","Islamabad","Rawalpindi","Multan","Peshawar","Quetta","Sialkot","Gujranwala","Sargodha","Bahawalpur","Sahiwal","Gujrat","Jhang","Sheikhupura","Larkana","Kasur","Rahim Yar Khan","Okara","Wah Cantt","Dera Ghazi Khan","Sukkur","Mardan","Mingora","Chiniot","Kamoke","Jhelum","Khanewal","Kohat","Muzaffarabad","Gilgit","Skardu","Murree","Faisalabad"];
+const cities=["Lahore","Karachi","Islamabad","Rawalpindi","Faisalabad","Multan","Peshawar","Quetta","Sialkot","Gujranwala","Sargodha","Bahawalpur","Sahiwal","Gujrat","Jhang","Sheikhupura","Larkana","Kasur","Rahim Yar Khan","Okara","Wah Cantt","Dera Ghazi Khan","Sukkur","Mardan","Mingora","Chiniot","Kamoke","Jhelum","Khanewal","Kohat","Muzaffarabad","Gilgit","Skardu","Murree"];
 const allServices=[
 {name:"Electrician",price:799,img:"https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600",desc:"Wiring"},
 {name:"Plumber",price:899,img:"https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=600",desc:"Leak Fix"},
 {name:"AC Technician",price:1499,img:"https://images.unsplash.com/photo-1631541909061-71e349d1f203?w=600",desc:"AC Service Gas"},
 {name:"Carpenter",price:899,img:"https://images.unsplash.com/photo-1581539250439-c96689b516dd?w=600",desc:"Furniture"},
 {name:"Painter",price:999,img:"https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=600",desc:"Wall Paint"},
-{name:"Cleaner",price:799,img:"https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600",desc:"Cleaning"},
+{name:"Cleaner",price:799,img:"https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600",desc:"Home Cleaning"},
 {name:"Mason",price:1099,img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600",desc:"Tiles"},
 {name:"Welder",price:1199,img:"https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600",desc:"Welding"},
 {name:"Appliance Repair",price:699,img:"https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600",desc:"Fridge Machine"},
 {name:"CCTV",price:1999,img:"https://images.unsplash.com/photo-1558002038-1055907df827?w=600",desc:"CCTV Install"},
-{name:"Gardener",price:599,img:"https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600",desc:"Garden"},
+{name:"Gardener",price:599,img:"https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600",desc:"Lawn Plants"},
 {name:"Locksmith",price:499,img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600",desc:"Lock Key"},
-{name:"Auto Mechanic",price:899,img:"https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600",desc:"Car Bike"},
+{name:"Auto Mechanic",price:899,img:"https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600",desc:"Car Bike Repair"},
 {name:"Computer Repair",price:799,img:"https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=600",desc:"PC Laptop"},
-{name:"Movers",price:2499,img:"https://images.unsplash.com/photo-1600518464441-9154a4dea21b?w=600",desc:"Shifting"}
+{name:"Movers",price:2499,img:"https://images.unsplash.com/photo-1600518464441-9154a4dea21b?w=600",desc:"House Shifting"}
 ];
 let currentCity=localStorage.getItem('ustadnow_city')||"Lahore"; let selService="";
 function initCities(){
-let opt=cities.map(c=>`<option ${c===currentCity?'selected':''}>${c}</option>`).join('');
-document.getElementById('citySelect').innerHTML=opt;
-document.getElementById('loginCityGoogle').innerHTML=opt;
-document.getElementById('cCity').innerHTML=opt;
-document.getElementById('uCity').innerHTML=opt;
+let o=cities.map(c=>`<option ${c===currentCity?'selected':''}>${c}</option>`).join('');
+document.getElementById('citySelect').innerHTML=o;
+document.getElementById('cCity').innerHTML=o;
+document.getElementById('uCity').innerHTML=o;
 changeCity(currentCity);
 }
-function changeCity(city){
-currentCity=city; localStorage.setItem('ustadnow_city',city);
-document.getElementById('cityName').innerText=city;
-document.getElementById('menuCity').innerText=city;
-document.getElementById('cityTrack').innerText=city;
-document.getElementById('bCity')?document.getElementById('bCity').innerText=city:null;
-let areas=[city+" Main",city+" Cantt",city+" Model Town",city+" City"];
+function changeCity(c){
+currentCity=c; localStorage.setItem('ustadnow_city',c);
+document.getElementById('cityName').innerText=c;
+document.getElementById('menuCity').innerText=c;
+document.getElementById('cityTrack').innerText=c;
+let areas=[c+" Main",c+" Cantt",c+" Model Town",c+" City"];
 document.getElementById('cArea').innerHTML=areas.map(a=>`<option>${a}</option>`).join('');
-document.getElementById('cCity').value=city; renderServices();
+renderServices();
 }
 document.getElementById('citySelect').addEventListener('change',e=>changeCity(e.target.value));
 function renderServices(){
 let pop=allServices.slice(0,6);
-document.getElementById('serviceGrid').innerHTML=pop.map(s=>`<div class='bg-[#FFFEF7] rounded-xl border border-[#e8e0c0] shadow-sm overflow-hidden'><img src='${s.img}' class='h-24 w-full object-cover'><div class='p-2'><h3 class='font-bold text-xs text-[#3d4a1e]'>${s.name}</h3><p class='font-black text-[#556B2F] text-xs'>PKR ${s.price}</p><button onclick="book('${s.name}')" class='w-full mt-1 bg-[#556B2F] text-white py-1.5 rounded text-xs font-bold'>Book</button></div></div>`).join('')+`<div class='col-span-2 bg-[#3d4a1e] text-[#FFF8DC] rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer' onclick='openServicesMenu()'><p class='text-3xl'>⋮</p><p class='font-bold text-sm'>View All 15 Services</p><p class='text-[10px]'>Tap 3 dots menu - No scroll</p></div>`;
+document.getElementById('serviceGrid').innerHTML=pop.map(s=>`<div class='bg-[#FFFEF7] rounded-xl border border-[#e8e0c0] shadow-sm overflow-hidden'><img src='${s.img}' class='h-24 w-full object-cover'><div class='p-2'><h3 class='font-bold text-xs text-[#3d4a1e]'>${s.name}</h3><p class='font-black text-[#556B2F] text-xs'>PKR ${s.price}</p><button onclick="book('${s.name}')" class='w-full mt-1 bg-[#556B2F] text-white py-1.5 rounded text-xs font-bold'>Book</button></div></div>`).join('')+`<div class='col-span-2 bg-[#3d4a1e] text-[#FFF8DC] rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer' onclick='openServicesMenu()'><p class='text-3xl'>⋮</p><p class='font-bold text-sm'>View All 15 Services</p><p class='text-[10px] opacity-80'>Baqi services 3 dots menu me</p></div>`;
 }
 function openServicesMenu(){
 document.getElementById('servicesMenu').classList.remove('hidden');
-document.getElementById('menuServicesList').innerHTML=allServices.map(s=>`<div class='flex items-center gap-3 p-3 border-b hover:bg-[#FFF8DC] cursor-pointer' onclick="book('${s.name}');closeServicesMenu()"><img src='${s.img}' class='w-12 h-12 rounded-lg object-cover'><div class='flex-1'><p class='font-bold text-xs text-[#3d4a1e]'>${s.name}</p><p class='text-[10px] text-[#556B2F]'>${s.desc} - PKR ${s.price}</p></div><span>›</span></div>`).join('');
+document.getElementById('menuServicesList').innerHTML=allServices.map(s=>`<div class='flex items-center gap-3 p-3 border-b hover:bg-white cursor-pointer' onclick="book('${s.name}');closeServicesMenu()"><img src='${s.img}' class='w-12 h-12 rounded-lg object-cover'><div class='flex-1'><p class='font-bold text-xs text-[#3d4a1e]'>${s.name}</p><p class='text-[10px] text-[#556B2F]'>${s.desc} - PKR ${s.price}</p></div><span class='text-[#556B2F]'>›</span></div>`).join('');
 }
 function closeServicesMenu(){document.getElementById('servicesMenu').classList.add('hidden');}
-const firebaseConfig={databaseURL:"https://ustadnow-default-rtdb.firebaseio.com/"}; try{firebase.initializeApp(firebaseConfig);}catch(e){}
-function openGoogleLogin(){document.getElementById('loginModal').style.display='flex';}
-function googleNext(){let e=document.getElementById('googleEmail').value; if(!e){alert("Email likho");return;} document.getElementById('showEmail').innerText=e; document.getElementById('loginStep1').classList.add('hidden'); document.getElementById('loginStep2').classList.remove('hidden');}
-function doGoogleLogin(){let email=document.getElementById('googleEmail').value,pass=document.getElementById('googlePass').value,city=document.getElementById('loginCityGoogle').value; localStorage.setItem('ustadnow_user',JSON.stringify({email,city})); localStorage.setItem('ustadnow_city',city); document.getElementById('loginModal').style.display='none'; changeCity(city); alert("Signed in "+email);}
 function openUstadReg(){document.getElementById('ustadRegModal').style.display='block';} function closeUstadReg(){document.getElementById('ustadRegModal').style.display='none';}
-function submitUstad(){let d={name:uName.value,phone:uPhone.value,city:uCity.value,skill:uSkill.value}; if(!d.name||!d.phone){alert("Naam Phone");return;} try{firebase.database().ref('ustads').push(d);}catch(e){} window.open(`https://wa.me/${WHATSAPP}?text=Ustad Reg ${d.city} ${d.name} ${d.phone} ${d.skill}`,'_blank'); closeUstadReg();}
-function openReviews(){document.getElementById('reviewsModal').style.display='block'; document.getElementById('reviewsList').innerHTML="<div class='bg-white p-3 rounded border'><b>Ali - Lahore ★★★★★</b><p class='text-sm'>Bohat acha service</p></div><div class='bg-white p-3 rounded border'><b>Fatima - Karachi ★★★★★</b><p class='text-sm'>Best - 0306-5005474</p></div>";} function closeReviews(){document.getElementById('reviewsModal').style.display='none';}
+function openReviews(){document.getElementById('reviewsModal').style.display='block'; document.getElementById('reviewsList').innerHTML=`<div class='bg-white p-3 rounded border'><b>Ali - ${currentCity} ★★★★★</b><p class='text-sm'>Best service 0306-5005474</p></div><div class='bg-white p-3 rounded border'><b>Fatima - ${currentCity} ★★★★★</b><p class='text-sm'>Ustad time pe aya</p></div>`;} function closeReviews(){document.getElementById('reviewsModal').style.display='none';}
 function openLiveTrack(){document.getElementById('liveTrackModal').style.display='block';} function closeLiveTrack(){document.getElementById('liveTrackModal').style.display='none';}
 function book(s){selService=s; document.getElementById('bTitle').innerText=s+" in "+currentCity; document.getElementById('bookModal').style.display='flex';} function closeBook(){document.getElementById('bookModal').style.display='none';}
-function confirmBook(){let n=cName.value,p=cPhone.value,city=cCity.value; if(!n||!p){alert("Naam Phone");return;} let b={service:selService,name:n,phone:p,city:city,time:new Date().toLocaleString()}; document.getElementById('liveTrackingBox').innerHTML=`<b>🔴 ${b.service} - ${b.city}</b> - ${b.time} <span class='text-green-600'>● Ustad on the way</span>`; try{firebase.database().ref('bookings').push(b);}catch(e){} window.open(`https://wa.me/${WHATSAPP}?text=Booking ${city} ${selService} ${n} ${p}`,'_blank'); closeBook();}
-function openAdmin(){document.getElementById('adminPage').style.display='block';} function closeAdmin(){document.getElementById('adminPage').style.display='none';}
+function confirmBook(){let n=cName.value,p=cPhone.value,ct=cCity.value; if(!n||!p){alert("Naam Phone likho");return;} let b={service:selService,name:n,phone:p,city:ct}; document.getElementById('liveTrackingBox').classList.remove('hidden'); document.getElementById('liveTrackingBox').innerHTML=`<b>🔴 ${b.service} in ${b.city} - ${b.name} - Ustad on the way</b> - ${WHATSAPP}`; try{firebase.database().ref('bookings').push(b);}catch(e){} window.open(`https://wa.me/${WHATSAPP}?text=Booking ${ct} ${selService} ${n} ${p}`,'_blank'); closeBook();}
+function submitUstad(){let n=uName.value,p=uPhone.value,c=uCity.value,sk=uSkill.value; if(!n||!p){alert("Name Phone");return;} window.open(`https://wa.me/${WHATSAPP}?text=Ustad Reg ${c} ${n} ${p} ${sk}`,'_blank'); closeUstadReg();}
+const firebaseConfig={databaseURL:"https://ustadnow-default-rtdb.firebaseio.com/"}; try{firebase.initializeApp(firebaseConfig);}catch(e){}
 initCities();
 </script></body></html>
