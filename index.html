@@ -1,67 +1,232 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
+<html><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>UstadNow - Faisalabad #1 Home Services</title>
+<title>UstadNow - Olive Cream - All Pakistan</title>
 <script src="https://cdn.tailwindcss.com"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-</head>
-<body class="bg-gray-50">
-<header class="bg-white shadow-sm sticky top-0 z-50">
-<div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center">
-<div class="flex items-center gap-2"><div class="bg-blue-600 text-white w-9 h-9 rounded-lg flex items-center justify-center font-black">U</div><span class="font-black text-xl text-blue-900">UstadNow</span><span class="bg-green-100 text-green-700 text-[10px] px-2 py-1 rounded-full font-bold ml-2">LIVE</span></div>
-<div class="flex gap-2"><a href="https://wa.me/923065005474" target="_blank" class="bg-green-500 text-white px-4 py-2 rounded-full text-sm font-bold">WhatsApp: 0306-5005474</a></div>
+<style>
+:root{--olive:#556B2F;--olive-dark:#3d4a1e;--cream:#FFF8DC;--cream-light:#FFFDD0;--cream-card:#FFFEF7;}
+body{background:var(--cream)!important;font-family:Inter,sans-serif}
+.bg-olive{background:var(--olive)}.bg-olive-dark{background:var(--olive-dark)}
+.bg-cream{background:var(--cream)}.bg-cream-card{background:var(--cream-card)}
+.text-olive{color:var(--olive)}.text-olive-dark{color:var(--olive-dark)}
+.btn-olive{background:var(--olive);color:var(--cream-light)}
+.card-cream{background:var(--cream-card);border:1px solid #e8e0c0}
+</style></head><body>
+<header class="bg-cream-card shadow sticky top-0 z-50 border-b border-[#e8e0c0]">
+<div class="max-w-7xl mx-auto px-4 py-3 flex justify-between items-center flex-wrap gap-2">
+<div class="flex items-center gap-2">
+<div class="bg-olive text-white w-9 h-9 rounded-lg flex items-center justify-center font-black">U</div>
+<span class="font-black text-xl text-olive-dark">UstadNow</span>
+<span class="bg-[#e8e0c0] text-olive-dark text-[10px] px-2 py-1 rounded-full font-bold">OLIVE • 35 CITIES</span>
 </div>
-</header>
+<div class="flex items-center gap-2">
+<select id="citySelect" class="border-2 border-olive rounded-full px-3 py-2 text-sm font-bold bg-cream-light text-olive-dark"></select>
+<button onclick="openUstadReg()" class="bg-olive text-white px-3 py-2 rounded-full text-xs font-bold">Become Ustad</button>
+<button onclick="openGoogleLogin()" class="border border-olive px-3 py-2 rounded-full text-sm font-bold">Sign in</button>
+<button onclick="openAdmin()" class="bg-olive-dark text-white px-3 py-2 rounded-full text-sm font-bold">Admin</button>
+<a href="https://wa.me/923065005474" class="bg-olive text-white px-3 py-2 rounded-full text-sm font-bold">0306-5005474</a>
+</div></div></header>
 
-<section class="bg-gradient-to-br from-blue-50 to-indigo-100">
-<div class="max-w-7xl mx-auto px-4 py-10 grid md:grid-cols-2 gap-8 items-center">
-<div>
-<h1 class="text-4xl font-black leading-tight">Faisalabad's #1<br>Home Service</h1>
-<p class="mt-4 text-gray-600">Trusted electricians, plumbers & AC technicians. Verified in minutes.</p>
-<div class="mt-6 flex bg-white rounded-xl shadow-lg p-2"><input placeholder="What service do you need?" class="flex-1 px-4 outline-none"><button onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})" class="bg-blue-600 text-white px-6 py-3 rounded-lg font-bold">Book Now</button></div>
-<div class="mt-5 flex flex-wrap gap-2 text-xs font-semibold"><span class="bg-white border px-3 py-1.5 rounded-full">🛡️ Verified Technicians</span><span class="bg-white border px-3 py-1.5 rounded-full">⭐ 4.8 ★ from 12,000+</span><span class="bg-white border px-3 py-1.5 rounded-full">⏱️ Same Day Service</span></div>
+<section class="bg-gradient-to-br from-[#FFFDD0] to-[#F5F5DC] py-8 text-center border-b border-[#e8e0c0]">
+<p class="text-sm font-bold text-olive">🇵🇰 OLIVE GREEN + CREAM • 35 CITIES • SUPER APP</p>
+<h1 class="text-3xl md:text-5xl font-black mt-2 text-olive-dark">Pakistan's #1 <span id="cityName">Faisalabad</span> Service</h1>
+<p class="text-olive text-sm mt-2">Google Login • Ustad Registration • Reviews • Live Tracking</p>
+</section>
+
+<section class="max-w-7xl mx-auto px-4 py-4 grid md:grid-cols-3 gap-4">
+<div class="card-cream rounded-2xl p-4 shadow-sm">
+<h3 class="font-bold text-sm text-olive-dark">🔴 Live Tracking</h3>
+<div id="liveTrackingBox" class="mt-3 text-xs text-olive">No active booking - Book now!</div>
+<button onclick="openLiveTrack()" class="w-full mt-3 btn-olive py-2 rounded-lg text-xs font-bold">Track My Ustad</button>
 </div>
-<div class="bg-white rounded-2xl shadow-xl p-3"><img src="https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600" class="rounded-xl h-[340px] w-full object-cover"><div class="p-3 flex justify-between"><div><p class="font-bold">Ahmed - Verified Ustad</p><p class="text-xs text-gray-500">⚡ Electrician • 5 Years • ⭐ 4.9</p></div><span class="bg-green-100 text-green-700 px-2 py-1 rounded text-xs font-bold">● Online</span></div></div>
+<div class="card-cream rounded-2xl p-4 shadow-sm">
+<h3 class="font-bold text-sm text-olive-dark">⭐ Customer Reviews</h3>
+<p class="text-2xl font-black text-olive-dark">4.8 ★</p><p class="text-xs text-olive">12,847 reviews across Pakistan</p>
+<button onclick="openReviews()" class="w-full mt-3 bg-[#e8e0c0] text-olive-dark py-2 rounded-lg text-xs font-bold border border-olive">Read Reviews</button>
+</div>
+<div class="card-cream rounded-2xl p-4 shadow-sm">
+<h3 class="font-bold text-sm text-olive-dark">🛠️ Ustad Registration</h3>
+<p class="text-xs text-olive mt-2">Earn Rs 50k/month • 35 Cities</p>
+<button onclick="openUstadReg()" class="w-full mt-3 btn-olive py-2 rounded-lg text-xs font-bold">Register as Ustad</button>
 </div>
 </section>
 
-<section id="services" class="max-w-7xl mx-auto px-4 py-10">
-<h2 class="text-3xl font-black text-center">Popular Services</h2>
-<div class="grid md:grid-cols-3 gap-5 mt-8">
-<div class="bg-white rounded-2xl border overflow-hidden"><img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=500" class="h-48 w-full object-cover"><div class="p-4"><h3 class="font-bold">Electrician Services</h3><p class="text-xs text-gray-500">⭐ 4.9 (2.1k reviews)</p><p class="mt-2 font-black text-blue-600">From PKR 799</p><button onclick="book('Electrician')" class="w-full mt-3 border-2 border-blue-600 text-blue-600 py-2 rounded-lg font-bold">Book Now</button></div></div>
-<div class="bg-white rounded-2xl border overflow-hidden"><img src="https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=500" class="h-48 w-full object-cover"><div class="p-4"><h3 class="font-bold">Plumber Services</h3><p class="text-xs text-gray-500">⭐ 4.8 (1.9k reviews)</p><p class="mt-2 font-black text-blue-600">From PKR 899</p><button onclick="book('Plumber')" class="w-full mt-3 border-2 border-blue-600 text-blue-600 py-2 rounded-lg font-bold">Book Now</button></div></div>
-<div class="bg-white rounded-2xl border overflow-hidden"><img src="https://images.unsplash.com/photo-1631541909061-71e349d1f203?w=500" class="h-48 w-full object-cover"><div class="p-4"><h3 class="font-bold">AC Technician</h3><p class="text-xs text-gray-500">⭐ 4.8 (2.4k reviews)</p><p class="mt-2 font-black text-blue-600">From PKR 1,499</p><button onclick="book('AC Technician')" class="w-full mt-3 border-2 border-blue-600 text-blue-600 py-2 rounded-lg font-bold">Book Now</button></div></div>
+<section class="max-w-7xl mx-auto px-4 py-4">
+<div class="flex justify-between items-center">
+<h2 class="font-black text-xl text-olive-dark">Services in <span id="cityName3">Faisalabad</span> - 15</h2>
+<input id="searchBox" onkeyup="filterS()" placeholder="Search service..." class="border border-olive rounded-full px-3 py-1 text-sm bg-cream-light">
 </div>
+<div id="serviceGrid" class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 mt-4"></div>
 </section>
-
-<div id="modal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-[60]"><div class="bg-white w-full max-w-md rounded-2xl p-6"><h3 id="mTitle" class="font-black text-xl">Book Service</h3>
-<input id="cName" placeholder="Aapka Naam *" class="w-full mt-4 border rounded-lg px-3 py-3">
-<input id="cPhone" placeholder="Phone: 0300..." class="w-full mt-3 border rounded-lg px-3 py-3">
-<select id="cArea" class="w-full mt-3 border rounded-lg px-3 py-3"><option>D Ground</option><option>Peoples Colony</option><option>Jinnah Colony</option><option>Gulberg</option><option>Madina Town</option><option>Jhang Road</option></select>
-<input id="cAddress" placeholder="Mukammal Address" class="w-full mt-3 border rounded-lg px-3 py-3">
-<textarea id="cIssue" placeholder="Masla kya hai?" class="w-full mt-3 border rounded-lg px-3 py-3"></textarea>
-<button onclick="confirm()" class="w-full mt-4 bg-blue-600 text-white py-3 rounded-lg font-bold">Confirm + WhatsApp - 0306-5005474</button>
-<button onclick="closeM()" class="w-full mt-2 bg-gray-100 py-3 rounded-lg font-bold">Cancel</button>
+<!-- USTAD REGISTRATION MODAL -->
+<div id="ustadRegModal" class="fixed inset-0 bg-cream hidden overflow-auto z-[90]">
+<div class="max-w-2xl mx-auto p-4">
+<div class="flex justify-between border-b border-[#e8e0c0] pb-3">
+<h2 class="text-2xl font-black text-olive-dark">Become Ustad - Registration</h2>
+<button onclick="closeUstadReg()" class="bg-olive-dark text-white px-4 py-2 rounded">Close</button>
+</div>
+<div class="mt-6 bg-cream-light border border-[#e8e0c0] rounded-xl p-4">
+<h3 class="font-bold text-olive-dark">Earn Rs 30,000 - 60,000 / Month</h3>
+<p class="text-xs text-olive">Join Pakistan's biggest platform - 35 cities - Olive Theme</p>
+</div>
+<div class="grid md:grid-cols-2 gap-3 mt-6">
+<input id="uName" placeholder="Full Name *" class="border border-[#e8e0c0] rounded-lg p-3 text-sm bg-cream-card">
+<input id="uPhone" placeholder="Phone 0306... *" class="border border-[#e8e0c0] rounded-lg p-3 text-sm bg-cream-card">
+<select id="uCity" class="border border-[#e8e0c0] rounded-lg p-3 text-sm bg-cream-card"></select>
+<select id="uSkill" class="border border-[#e8e0c0] rounded-lg p-3 text-sm bg-cream-card">
+<option>Electrician</option><option>Plumber</option><option>AC Technician</option>
+<option>Carpenter</option><option>Painter</option><option>Cleaner</option><option>Mason</option><option>Welder</option>
+</select>
+<input id="uRate" placeholder="Daily Rate PKR 1500" class="border border-[#e8e0c0] rounded-lg p-3 text-sm bg-cream-card">
+<input id="uArea" placeholder="Your Area in City" class="border border-[#e8e0c0] rounded-lg p-3 text-sm bg-cream-card md:col-span-2">
+<textarea id="uAbout" placeholder="About your work..." class="border border-[#e8e0c0] rounded-lg p-3 text-sm bg-cream-card md:col-span-2"></textarea>
+</div>
+<button onclick="submitUstad()" class="w-full mt-4 btn-olive py-3 rounded-lg font-bold">Submit - WhatsApp 0306-5005474</button>
+<div id="ustadListBox" class="mt-6 text-xs"></div>
 </div></div>
 
+<!-- REVIEWS MODAL -->
+<div id="reviewsModal" class="fixed inset-0 bg-cream hidden overflow-auto z-[90]">
+<div class="max-w-3xl mx-auto p-4">
+<div class="flex justify-between"><h2 class="text-2xl font-black text-olive-dark">Customer Reviews</h2>
+<button onclick="closeReviews()" class="bg-olive-dark text-white px-4 py-2 rounded">Close</button></div>
+<div id="reviewsList" class="mt-6 space-y-3"></div>
+</div></div>
+
+<!-- LIVE TRACKING MODAL -->
+<div id="liveTrackModal" class="fixed inset-0 bg-cream hidden overflow-auto z-[90]">
+<div class="max-w-2xl mx-auto p-4">
+<div class="flex justify-between"><h2 class="text-2xl font-black text-olive-dark">🔴 Live Tracking</h2>
+<button onclick="closeLiveTrack()" class="bg-olive-dark text-white px-4 py-2 rounded">Close</button></div>
+<div class="mt-6 bg-cream-card border border-[#e8e0c0] rounded-2xl h-64 flex items-center justify-center">
+<div class="text-center"><p class="text-4xl">🗺️</p>
+<p class="font-bold text-olive-dark">Live Map - <span class="cityTrack">Faisalabad</span></p>
+<p class="text-xs text-olive">Ustad 2.3km away - 8 mins - Olive Theme</p>
+<div class="mt-3 bg-white border border-olive rounded-full px-4 py-2 text-xs">📍 Live Location • 📞 0306-5005474</div>
+</div></div>
+<div class="mt-6 space-y-3 text-sm">
+<div class="flex gap-3"><div class="w-8 h-8 bg-olive rounded-full flex items-center justify-center text-white text-xs">✓</div><div><p class="font-bold">Booking Confirmed</p><p class="text-xs text-olive" id="trackTime1">Today - Faisalabad</p></div></div>
+<div class="flex gap-3"><div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs animate-pulse">●</div><div><p class="font-bold">Ustad on the way - Live</p><p class="text-xs text-olive">Ahmed - 0306-5005474 - 2.3km away</p></div></div>
+</div>
+</div></div>
+
+<!-- GOOGLE LOGIN - OLIVE THEME -->
+<div id="loginModal" class="fixed inset-0 bg-[#FFF8DC] hidden z-[100] overflow-auto p-4">
+<div class="min-h-screen flex items-center justify-center">
+<div class="w-full max-w-[440px]">
+<div class="bg-[#FFFEF7] border border-[#e8e0c0] rounded-[28px] p-8 shadow-lg">
+<div class="text-[22px] font-bold text-olive-dark">UstadNow <span class="text-sm font-normal">• Olive</span></div>
+<h1 class="text-[28px] mt-4 text-olive-dark">Sign in</h1><p class="text-sm text-olive">to continue to UstadNow</p>
+<div id="loginStep1" class="mt-6"><input id="googleEmail" placeholder="Email or phone" class="w-full border border-olive rounded px-4 py-3 bg-cream-light">
+<div class="flex justify-between mt-8"><button class="text-olive text-sm font-bold">Create account</button>
+<button onclick="googleNext()" class="bg-olive text-white px-6 py-2 rounded-full text-sm">Next</button></div></div>
+<div id="loginStep2" class="hidden mt-6"><div class="border border-olive rounded-full px-3 py-1 w-fit text-sm"><span id="showEmail"></span></div>
+<input id="googlePass" type="password" placeholder="Password" class="w-full border border-olive rounded px-4 py-3 mt-4 bg-cream-light">
+<div class="flex justify-between mt-6"><button onclick="backToEmail()" class="text-olive text-sm">Try another way</button>
+<button onclick="doGoogleLogin()" class="bg-olive text-white px-6 py-2 rounded-full text-sm">Next</button></div></div>
+<select id="loginCityGoogle" class="w-full border border-[#e8e0c0] rounded-lg p-2 mt-6 text-sm bg-cream-light"></select>
+<select id="lRoleGoogle" class="w-full border border-[#e8e0c0] rounded-lg p-2 mt-2 text-sm bg-cream-light">
+<option>Customer - Service Lena Hai</option><option>Ustad - Kaam Karna Hai</option><option>Admin</option></select>
+</div></div></div></div>
+
+<!-- BOOKING MODAL -->
+<div id="bookModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50">
+<div class="bg-cream-card rounded-2xl p-6 w-full max-w-md border border-[#e8e0c0]">
+<h3 id="bTitle" class="font-black text-olive-dark"></h3><p class="text-xs text-olive">City: <span id="bCity"></span></p>
+<input id="cName" placeholder="Naam *" class="w-full border border-[#e8e0c0] rounded-lg p-3 mt-3 bg-cream-light">
+<input id="cPhone" placeholder="Phone *" class="w-full border border-[#e8e0c0] rounded-lg p-3 mt-2 bg-cream-light">
+<select id="cCity" class="w-full border border-[#e8e0c0] rounded-lg p-3 mt-2 bg-cream-light"></select>
+<select id="cArea" class="w-full border border-[#e8e0c0] rounded-lg p-3 mt-2 bg-cream-light"></select>
+<input id="cAddress" placeholder="Full Address" class="w-full border border-[#e8e0c0] rounded-lg p-3 mt-2 bg-cream-light">
+<textarea id="cIssue" placeholder="Masla kya hai?" class="w-full border border-[#e8e0c0] rounded-lg p-3 mt-2 bg-cream-light"></textarea>
+<button onclick="confirmBook()" class="w-full bg-olive text-white py-3 rounded-lg mt-3 font-bold">Confirm + Live Track - 0306-5005474</button>
+<button onclick="closeBook()" class="w-full bg-[#e8e0c0] py-2 rounded mt-2 text-olive-dark">Cancel</button>
+</div></div>
+
+<!-- ADMIN -->
+<div id="adminPage" class="fixed inset-0 bg-cream hidden overflow-auto z-[80]">
+<div class="max-w-6xl mx-auto p-4">
+<div class="flex justify-between"><h2 class="text-2xl font-black text-olive-dark">Admin - Olive Dashboard</h2>
+<button onclick="closeAdmin()" class="bg-olive-dark text-white px-4 py-2 rounded">Close</button></div>
+<div class="grid grid-cols-4 gap-3 mt-4">
+<div class="bg-cream-card border p-3 rounded"><p class="text-xs text-olive">Bookings</p><p id="totalB" class="font-black text-xl text-olive-dark">0</p></div>
+<div class="bg-cream-card border p-3 rounded"><p class="text-xs text-olive">Ustads</p><p id="totalU" class="font-black text-xl">0</p></div>
+<div class="bg-cream-card border p-3 rounded"><p class="text-xs text-olive">Reviews</p><p id="totalR" class="font-black text-xl">0</p></div>
+<div class="bg-cream-card border p-3 rounded"><p class="text-xs text-olive">Cities</p><p class="font-black text-xl">35</p></div>
+</div>
+<select id="adminCityFilter" onchange="loadAdmin()" class="border border-olive rounded p-2 mt-4 bg-cream-light"></select>
+<div id="adminList" class="mt-4"></div>
+</div></div>
+
+<footer class="bg-olive-dark text-cream-light py-6 text-center text-xs mt-10">
+UstadNow - Olive Green #556B2F + Cream #FFF8DC - Premium Theme<br>
+All Pakistan 35 Cities • Google Login • Ustad Reg • Reviews • Live Tracking • 0306-5005474
+</footer>
+
 <script>
-const WHATSAPP="923065005474"; let selService="";
-const firebaseConfig={databaseURL:"https://ustadnow-default-rtdb.firebaseio.com/"}; try{firebase.initializeApp(firebaseConfig);}catch(e){}
-function book(s){selService=s; document.getElementById('mTitle').innerText=s+" Booking"; document.getElementById('modal').style.display='flex';}
-function closeM(){document.getElementById('modal').style.display='none';}
-function confirm(){
-const n=document.getElementById('cName').value,p=document.getElementById('cPhone').value,a=document.getElementById('cArea').value,ad=document.getElementById('cAddress').value,i=document.getElementById('cIssue').value;
-if(!n||!p){alert("Naam Phone likho!");return;}
-const b={service:selService,name:n,phone:p,area:a,address:ad,issue:i,time:new Date().toLocaleString(),status:"New"};
-try{firebase.database().ref('bookings').push(b);}catch(e){}
-const msg=`*UstadNow NEW BOOKING*%0AService: ${selService}%0AName: ${n}%0APhone: ${p}%0AArea: ${a}%0AAddress: ${ad}%0AIssue: ${i}`;
-window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,'_blank');
-alert("✅ Booking ho gayi! WhatsApp pe chali gayi - 0306-5005474 pe!");
-closeM();
+const WHATSAPP="923065005474";
+const cities=["Karachi","Lahore","Islamabad","Rawalpindi","Multan","Peshawar","Quetta","Sialkot","Gujranwala","Sargodha","Bahawalpur","Sahiwal","Gujrat","Jhang","Sheikhupura","Larkana","Kasur","Rahim Yar Khan","Okara","Wah Cantt","Dera Ghazi Khan","Sukkur","Mardan","Mingora","Chiniot","Kamoke","Jhelum","Khanewal","Kohat","Muzaffarabad","Gilgit","Skardu","Murree","Faisalabad"];
+const allServices=[
+{name:"Electrician",price:799,img:"https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600",desc:"Wiring"},
+{name:"Plumber",price:899,img:"https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=600",desc:"Leak"},
+{name:"AC Technician",price:1499,img:"https://images.unsplash.com/photo-1631541909061-71e349d1f203?w=600",desc:"AC"},
+{name:"Carpenter",price:899,img:"https://images.unsplash.com/photo-1581539250439-c96689b516dd?w=600",desc:"Furniture"},
+{name:"Painter",price:999,img:"https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=600",desc:"Paint"},
+{name:"Cleaner",price:799,img:"https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600",desc:"Cleaning"},
+{name:"Mason",price:1099,img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600",desc:"Tiles"},
+{name:"Welder",price:1199,img:"https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600",desc:"Welding"},
+{name:"Appliance Repair",price:699,img:"https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600",desc:"Fridge"},
+{name:"CCTV",price:1999,img:"https://images.unsplash.com/photo-1558002038-1055907df827?w=600",desc:"CCTV"},
+{name:"Gardener",price:599,img:"https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600",desc:"Garden"},
+{name:"Locksmith",price:499,img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600",desc:"Lock"},
+{name:"Auto Mechanic",price:899,img:"https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600",desc:"Car"},
+{name:"Computer Repair",price:799,img:"https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=600",desc:"PC"},
+{name:"Movers",price:2499,img:"https://images.unsplash.com/photo-1600518464441-9154a4dea21b?w=600",desc:"Shifting"}
+];
+let currentCity=localStorage.getItem('ustadnow_city')||"Faisalabad"; let selService=""; let lastBooking=null;
+function initCities(){
+let opt=cities.map(c=>`<option ${c===currentCity?'selected':''}>${c}</option>`).join('');
+document.getElementById('citySelect').innerHTML=opt;
+document.getElementById('loginCityGoogle').innerHTML=opt;
+document.getElementById('cCity').innerHTML=opt;
+document.getElementById('uCity').innerHTML=opt;
+document.getElementById('adminCityFilter').innerHTML="<option>All Cities</option>"+opt;
+changeCity(currentCity);
 }
-</script>
-</body>
-</html>
+function changeCity(city){
+currentCity=city; localStorage.setItem('ustadnow_city',city);
+document.getElementById('cityName').innerText=city;
+document.getElementById('cityName3').innerText=city;
+document.getElementById('bCity').innerText=city;
+let areas=[city+" Main",city+" Cantt",city+" Model Town",city+" Township",city+" City"];
+document.getElementById('cArea').innerHTML=areas.map(a=>`<option>${a}</option>`).join('');
+document.getElementById('cCity').value=city;
+renderServices();
+}
+document.getElementById('citySelect').addEventListener('change',e=>changeCity(e.target.value));
+function renderServices(list=allServices){
+document.getElementById('serviceGrid').innerHTML=list.map(s=>`<div class='bg-[#FFFEF7] rounded-xl border border-[#e8e0c0] shadow-sm overflow-hidden'><img src='${s.img}' class='h-24 w-full object-cover'><div class='p-2'><h3 class='font-bold text-xs text-[#3d4a1e]'>${s.name}</h3><p class='text-[10px] text-[#556B2F]'>${s.desc} - ${currentCity}</p><p class='font-black text-[#556B2F] text-xs'>PKR ${s.price}</p><button onclick="book('${s.name}')" class='w-full mt-1 bg-[#556B2F] text-[#FFFDD0] py-1 rounded text-xs font-bold'>Book in ${currentCity}</button></div></div>`).join('');
+}
+function filterS(){let q=document.getElementById('searchBox').value.toLowerCase(); renderServices(allServices.filter(s=>s.name.toLowerCase().includes(q)));}
+const firebaseConfig={databaseURL:"https://ustadnow-default-rtdb.firebaseio.com/"}; try{firebase.initializeApp(firebaseConfig);}catch(e){}
+function openGoogleLogin(){document.getElementById('loginModal').style.display='flex';}
+function googleNext(){let e=document.getElementById('googleEmail').value; if(!e){alert("Email likho");return;} document.getElementById('showEmail').innerText=e; document.getElementById('loginStep1').classList.add('hidden'); document.getElementById('loginStep2').classList.remove('hidden');}
+function backToEmail(){document.getElementById('loginStep2').classList.add('hidden'); document.getElementById('loginStep1').classList.remove('hidden');}
+function doGoogleLogin(){let email=document.getElementById('googleEmail').value,pass=document.getElementById('googlePass').value,city=document.getElementById('loginCityGoogle').value; if(!pass){alert("Password");return;} localStorage.setItem('ustadnow_user',JSON.stringify({email,city})); localStorage.setItem('ustadnow_city',city); document.getElementById('loginModal').style.display='none'; changeCity(city); alert("Signed in: "+email+" - Olive Theme!");}
+function openUstadReg(){document.getElementById('ustadRegModal').style.display='block';}
+function closeUstadReg(){document.getElementById('ustadRegModal').style.display='none';}
+function submitUstad(){let data={name:document.getElementById('uName').value,phone:document.getElementById('uPhone').value,city:document.getElementById('uCity').value,skill:document.getElementById('uSkill').value,rate:document.getElementById('uRate').value,time:new Date().toLocaleString()}; if(!data.name||!data.phone){alert("Naam Phone");return;} try{firebase.database().ref('ustads').push(data);}catch(e){} let msg=`*OLIVE USTAD REG - ${data.city}*%0AName: ${data.name}%0APhone: ${data.phone}%0ASkill: ${data.skill}`; window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,'_blank'); alert("Ustad Registration sent!"); closeUstadReg();}
+function openReviews(){document.getElementById('reviewsModal').style.display='block'; document.getElementById('reviewsList').innerHTML="<div class='card-cream p-3 rounded-xl'><p class='font-bold'>Ali Khan - Lahore ★★★★★</p><p class='text-sm'>Bohat acha, olive theme premium!</p></div><div class='card-cream p-3 rounded-xl'><p class='font-bold'>Fatima - Karachi ★★★★★</p><p class='text-sm'>Best service - 0306-5005474</p></div>";}
+function closeReviews(){document.getElementById('reviewsModal').style.display='none';}
+function openLiveTrack(){document.getElementById('liveTrackModal').style.display='block';}
+function closeLiveTrack(){document.getElementById('liveTrackModal').style.display='none';}
+function book(s){selService=s; document.getElementById('bTitle').innerText=s+" in "+currentCity; document.getElementById('bookModal').style.display='flex';}
+function closeBook(){document.getElementById('bookModal').style.display='none';}
+function confirmBook(){let n=document.getElementById('cName').value,p=document.getElementById('cPhone').value,city=document.getElementById('cCity').value; if(!n||!p){alert("Naam Phone");return;} let b={service:selService,name:n,phone:p,city:city,time:new Date().toLocaleString()}; lastBooking=b; document.getElementById('liveTrackingBox').innerHTML=`<p class='font-bold'>🔴 ${b.service} - ${b.city}</p><p>${b.time}</p><p class='text-green-600'>● Ustad on the way</p>`; try{firebase.database().ref('bookings').push(b);}catch(e){} let msg=`*OLIVE THEME - ${city}*%0AService: ${selService}%0AName: ${n}%0APhone: ${p}%0ACity: ${city}`; window.open(`https://wa.me/${WHATSAPP}?text=${msg}`,'_blank'); alert("Booking Olive Theme - "+city); closeBook();}
+function openAdmin(){document.getElementById('adminPage').style.display='block';}
+function closeAdmin(){document.getElementById('adminPage').style.display='none';}
+function loadAdmin(){}
+initCities();
+</script></body></html>
