@@ -1,118 +1,79 @@
 <!DOCTYPE html>
 <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UstadNow - Pakistan #1</title>
-<script src="https://cdn.tailwindcss.com"></script>
+<title>UstadNow</title><script src="https://cdn.tailwindcss.com"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-<style>body{background:#FFF8DC}</style>
-</head><body>
+</head><body class="bg-[#FFF8DC]">
 
-<header class="bg-[#FFFEF7] shadow sticky top-0 z-50 border-b border-[#e8e0c0]">
+<header class="bg-[#FFFEF7] shadow sticky top-0 z-50">
 <div class="max-w-7xl mx-auto px-3 py-3 flex justify-between items-center">
 <div class="flex items-center gap-3">
-<div class="bg-[#556B2F] text-white w-16 h-16 rounded-xl flex items-center justify-center font-black text-3xl shadow-lg">U</div>
-<div><p class="font-black text-[28px] leading-none text-[#3d4a1e]">UstadNow</p><span class="bg-[#e8e0c0] text-[#3d4a1e] text-[9px] px-2 py-0.5 rounded-full font-bold">PAKISTAN • 35 CITIES</span></div>
+<div class="bg-[#556B2F] text-white w-16 h-16 rounded-xl flex items-center justify-center font-black text-3xl">U</div>
+<span class="font-black text-[28px] text-[#3d4a1e]">UstadNow</span>
 </div>
-<div class="flex items-center gap-2">
-<select id="citySelect" class="border-2 border-[#556B2F] rounded-full px-3 py-2.5 text-xs font-bold bg-[#FFFEF7]"></select>
-<button onclick="openServicesMenu()" class="w-12 h-12 rounded-full bg-[#556B2F] text-white flex items-center justify-center text-3xl font-bold">⋮</button>
+<div class="flex gap-2">
+<select id="citySelect" class="border-2 border-[#556B2F] rounded-full px-3 py-2 text-xs font-bold bg-[#FFFEF7]"></select>
+<button onclick="openServicesMenu()" class="w-12 h-12 rounded-full bg-[#556B2F] text-white text-3xl font-bold">⋮</button>
 </div></div></header>
 
-<!-- UPAR WALE 3 BOXES - AB TOP PE -->
-<div class="max-w-7xl mx-auto px-3 mt-4">
-<div class="grid grid-cols-1 md:grid-cols-3 gap-3">
-<div class="bg-[#FFFEF7] border border-[#e8e0c0] rounded-2xl p-4 shadow-sm">
-<p class="font-bold text-[#3d4a1e] text-sm">🔴 Live Tracking</p><p class="text-[11px] text-gray-500">No active booking</p>
-<button onclick="openLiveTrack()" class="w-full mt-3 bg-[#556B2F] text-white py-2.5 rounded-full text-xs font-bold">Track My Ustad</button>
-</div>
-<div class="bg-[#FFFEF7] border border-[#e8e0c0] rounded-2xl p-4 shadow-sm">
-<p class="font-bold text-[#3d4a1e] text-sm">⭐ 4.8 Reviews</p><p class="text-[11px] text-gray-500">12,847 reviews</p>
-<button onclick="openReviews()" class="w-full mt-3 bg-[#e8e0c0] text-[#3d4a1e] py-2.5 rounded-full text-xs font-bold">Read Reviews</button>
-</div>
-<div class="bg-[#FFFEF7] border border-[#e8e0c0] rounded-2xl p-4 shadow-sm">
-<p class="font-bold text-[#3d4a1e] text-sm">🛠️ Ustad Reg</p><p class="text-[11px] text-gray-500">Earn Rs 50k/month</p>
-<button onclick="openUstadReg()" class="w-full mt-3 bg-black text-white py-2.5 rounded-full text-xs font-bold">Register - 0306-5005474</button>
-</div>
-</div>
+<!-- TOP 3 BOXES -->
+<div class="max-w-7xl mx-auto px-3 mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
+<div class="bg-[#FFFEF7] border rounded-2xl p-4"><p class="font-bold text-sm">🔴 Live Tracking</p><button onclick="openLiveTrack()" class="w-full mt-2 bg-[#556B2F] text-white py-2 rounded-full text-xs font-bold">Track My Ustad</button></div>
+<div class="bg-[#FFFEF7] border rounded-2xl p-4"><p class="font-bold text-sm">⭐ 4.8 Reviews</p><button onclick="openReviews()" class="w-full mt-2 bg-[#e8e0c0] text-[#3d4a1e] py-2 rounded-full text-xs font-bold">Read Reviews</button></div>
+<div class="bg-[#FFFEF7] border rounded-2xl p-4"><p class="font-bold text-sm">🛠️ Ustad Reg</p><button onclick="openUstadReg()" class="w-full mt-2 bg-black text-white py-2 rounded-full text-xs font-bold">Register</button></div>
 </div>
 
-<section class="py-5 text-center"><h1 class="text-[28px] md:text-4xl font-black text-[#3d4a1e]">Pakistan's #1 <span id="cityName">Lahore</span> Service</h1>
-<p class="text-xs text-[#556B2F] mt-1 font-bold">15 Services • Same Day • Baqi sab 3 dots ⋮ menu me</p></section>
+<section class="py-4 text-center"><h1 class="text-3xl font-black text-[#3d4a1e]">Pakistan's #1 <span id="cityName">Lahore</span> Service</h1></section>
 
 <div class="max-w-7xl mx-auto px-3 pb-8">
 <div id="serviceGrid" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
-<div id="liveTrackingBox" class="mt-4 bg-white border-2 border-[#556B2F] rounded-xl p-3 text-xs hidden"></div>
 </div>
 
-<!-- 3 DOTS MENU - ALL 15 SERVICES -->
+<!-- 3 DOTS MENU -->
 <div id="servicesMenu" class="fixed inset-0 bg-black/50 hidden z-[95]" onclick="closeServicesMenu()">
-<div class="absolute right-0 top-0 h-full w-[90%] max-w-[360px] bg-[#FFFEF7] shadow-2xl overflow-auto" onclick="event.stopPropagation()">
-<div class="p-4 bg-[#3d4a1e] text-[#FFF8DC] flex justify-between items-center"><h3 class="font-black text-sm">ALL 15 SERVICES - <span id="menuCity">Lahore</span></h3><button onclick="closeServicesMenu()" class="w-8 h-8 bg-white/20 rounded-full">✕</button></div>
+<div class="absolute right-0 top-0 h-full w-[90%] max-w-[360px] bg-[#FFFEF7] overflow-auto" onclick="event.stopPropagation()">
+<div class="p-4 bg-[#3d4a1e] text-white flex justify-between"><h3 class="font-black text-sm">ALL 15 - <span id="menuCity">Lahore</span></h3><button onclick="closeServicesMenu()" class="w-8 h-8 bg-white/20 rounded-full">✕</button></div>
 <div id="menuServicesList"></div>
-<div class="p-3 border-t grid grid-cols-2 gap-2">
-<button onclick="openUstadReg();closeServicesMenu()" class="bg-[#556B2F] text-white py-2.5 rounded-full text-xs font-bold">Become Ustad</button>
-<a href="https://wa.me/923065005474" class="bg-green-600 text-white py-2.5 rounded-full text-xs font-bold text-center">WhatsApp</a>
-</div></div></div>
+</div></div>
 
-<!-- MODALS -->
-<div id="ustadRegModal" class="fixed inset-0 bg-[#FFF8DC] hidden z-[90] p-4 overflow-auto"><div class="max-w-xl mx-auto"><div class="flex justify-between border-b pb-3"><h2 class="font-black text-xl text-[#3d4a1e]">Become Ustad</h2><button onclick="closeUstadReg()" class="bg-[#3d4a1e] text-white px-4 py-2 rounded-full">✕</button></div><input id="uName" placeholder="Full Name *" class="w-full border rounded-lg p-3 mt-4 bg-[#FFFEF7]"><input id="uPhone" placeholder="Phone 0306..." class="w-full border rounded-lg p-3 mt-2 bg-[#FFFEF7]"><select id="uCity" class="w-full border rounded-lg p-3 mt-2 bg-[#FFFEF7]"></select><select id="uSkill" class="w-full border rounded-lg p-3 mt-2 bg-[#FFFEF7]"><option>Electrician</option><option>Plumber</option><option>AC Technician</option><option>Carpenter</option><option>Painter</option><option>Cleaner</option></select><button onclick="submitUstad()" class="w-full bg-[#556B2F] text-white py-3 rounded-lg mt-4 font-bold">Submit - 0306-5005474</button></div></div>
-<div id="reviewsModal" class="fixed inset-0 bg-[#FFF8DC] hidden z-[90] p-4 overflow-auto"><div class="max-w-2xl mx-auto"><div class="flex justify-between"><h2 class="font-black text-xl">⭐ Reviews (4.8)</h2><button onclick="closeReviews()" class="bg-[#3d4a1e] text-white px-4 py-2 rounded-full">✕</button></div><div id="reviewsList" class="mt-4 space-y-2"></div></div></div>
-<div id="liveTrackModal" class="fixed inset-0 bg-[#FFF8DC] hidden z-[90] p-4"><div class="max-w-xl mx-auto"><div class="flex justify-between"><h2 class="font-black text-xl">🔴 Live Tracking - <span id="cityTrack">Lahore</span></h2><button onclick="closeLiveTrack()" class="bg-[#3d4a1e] text-white px-4 py-2 rounded-full">✕</button></div><div class="mt-6 bg-[#FFFEF7] border-2 rounded-2xl h-64 flex items-center justify-center"><div class="text-center"><p class="text-4xl">🗺️</p><p class="font-bold">Ustad on the way - Call 0306-5005474</p></div></div></div></div>
-<div id="bookModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50"><div class="bg-[#FFFEF7] rounded-2xl p-6 w-full max-w-md border-2 border-[#e8e0c0]"><h3 id="bTitle" class="font-black text-[#3d4a1e]"></h3><input id="cName" placeholder="Naam *" class="w-full border rounded-lg p-3 mt-3"><input id="cPhone" placeholder="Phone *" class="w-full border rounded-lg p-3 mt-2"><select id="cCity" class="w-full border rounded-lg p-3 mt-2"></select><select id="cArea" class="w-full border rounded-lg p-3 mt-2"></select><button onclick="confirmBook()" class="w-full bg-[#556B2F] text-white py-3 rounded-lg mt-3 font-bold">Confirm Booking</button><button onclick="closeBook()" class="w-full bg-[#e8e0c0] py-2 rounded mt-2">Cancel</button></div></div>
+<div id="ustadRegModal" class="fixed inset-0 bg-[#FFF8DC] hidden z-[90] p-4 overflow-auto"><div class="max-w-xl mx-auto"><div class="flex justify-between"><h2 class="font-black text-xl">Become Ustad</h2><button onclick="closeUstadReg()" class="bg-black text-white px-4 py-2 rounded">✕</button></div><input id="uName" placeholder="Name" class="w-full border p-3 mt-4 rounded"><input id="uPhone" placeholder="Phone" class="w-full border p-3 mt-2 rounded"><select id="uCity" class="w-full border p-3 mt-2 rounded"></select><button onclick="submitUstad()" class="w-full bg-[#556B2F] text-white py-3 rounded mt-3 font-bold">Submit 0306-5005474</button></div></div>
+<div id="bookModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50"><div class="bg-white rounded-2xl p-6 w-full max-w-md"><h3 id="bTitle" class="font-black"></h3><input id="cName" placeholder="Naam" class="w-full border p-3 mt-3 rounded"><input id="cPhone" placeholder="Phone" class="w-full border p-3 mt-2 rounded"><button onclick="confirmBook()" class="w-full bg-[#556B2F] text-white py-3 rounded mt-3 font-bold">Confirm</button><button onclick="closeBook()" class="w-full bg-gray-200 py-2 rounded mt-2">Cancel</button></div></div>
 
 <script>
 const WHATSAPP="923065005474";
 const cities=["Lahore","Karachi","Islamabad","Rawalpindi","Faisalabad","Multan","Peshawar","Quetta","Sialkot","Gujranwala","Sargodha","Bahawalpur","Sahiwal","Gujrat","Jhang","Sheikhupura","Larkana","Kasur","Rahim Yar Khan","Okara","Wah Cantt","Dera Ghazi Khan","Sukkur","Mardan","Mingora","Chiniot","Kamoke","Jhelum","Khanewal","Kohat","Muzaffarabad","Gilgit","Skardu","Murree"];
 const allServices=[
-{name:"Electrician",price:799,img:"https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600",desc:"Wiring"},
-{name:"Plumber",price:899,img:"https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=600",desc:"Leak Fix"},
-{name:"AC Technician",price:1499,img:"https://images.unsplash.com/photo-1631541909061-71e349d1f203?w=600",desc:"AC Service Gas"},
-{name:"Carpenter",price:899,img:"https://images.unsplash.com/photo-1581539250439-c96689b516dd?w=600",desc:"Furniture"},
-{name:"Painter",price:999,img:"https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=600",desc:"Wall Paint"},
-{name:"Cleaner",price:799,img:"https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600",desc:"Home Cleaning"},
-{name:"Mason",price:1099,img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600",desc:"Tiles"},
-{name:"Welder",price:1199,img:"https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600",desc:"Welding"},
-{name:"Appliance Repair",price:699,img:"https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600",desc:"Fridge Machine"},
-{name:"CCTV",price:1999,img:"https://images.unsplash.com/photo-1558002038-1055907df827?w=600",desc:"CCTV Install"},
-{name:"Gardener",price:599,img:"https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600",desc:"Lawn Plants"},
-{name:"Locksmith",price:499,img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600",desc:"Lock Key"},
-{name:"Auto Mechanic",price:899,img:"https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600",desc:"Car Bike Repair"},
-{name:"Computer Repair",price:799,img:"https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=600",desc:"PC Laptop"},
-{name:"Movers",price:2499,img:"https://images.unsplash.com/photo-1600518464441-9154a4dea21b?w=600",desc:"House Shifting"}
+{name:"Electrician",price:799,img:"https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600"},
+{name:"Plumber",price:899,img:"https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=600"},
+{name:"AC Technician",price:1499,img:"https://images.unsplash.com/photo-1631541909061-71e349d1f203?w=600"},
+{name:"Carpenter",price:899,img:"https://images.unsplash.com/photo-1581539250439-c96689b516dd?w=600"},
+{name:"Painter",price:999,img:"https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=600"},
+{name:"Cleaner",price:799,img:"https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600"},
+{name:"Mason",price:1099,img:"https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600"},
+{name:"Welder",price:1199,img:"https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600"},
+{name:"Appliance Repair",price:699,img:"https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=600"},
+{name:"CCTV",price:1999,img:"https://images.unsplash.com/photo-1558002038-1055907df827?w=600"},
+{name:"Gardener",price:599,img:"https://images.unsplash.com/photo-1416879595882-3373a0480b5b?w=600"},
+{name:"Locksmith",price:499,img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600"},
+{name:"Auto Mechanic",price:899,img:"https://images.unsplash.com/photo-1486262715619-67b85e0b08d3?w=600"},
+{name:"Computer Repair",price:799,img:"https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=600"},
+{name:"Movers",price:2499,img:"https://images.unsplash.com/photo-1600518464441-9154a4dea21b?w=600"}
 ];
 let currentCity=localStorage.getItem('ustadnow_city')||"Lahore"; let selService="";
-function initCities(){
-let o=cities.map(c=>`<option ${c===currentCity?'selected':''}>${c}</option>`).join('');
-document.getElementById('citySelect').innerHTML=o;
-document.getElementById('cCity').innerHTML=o;
-document.getElementById('uCity').innerHTML=o;
-changeCity(currentCity);
-}
-function changeCity(c){
-currentCity=c; localStorage.setItem('ustadnow_city',c);
-document.getElementById('cityName').innerText=c;
-document.getElementById('menuCity').innerText=c;
-document.getElementById('cityTrack').innerText=c;
-let areas=[c+" Main",c+" Cantt",c+" Model Town",c+" City"];
-document.getElementById('cArea').innerHTML=areas.map(a=>`<option>${a}</option>`).join('');
-renderServices();
-}
+function init(){document.getElementById('citySelect').innerHTML=cities.map(c=>`<option ${c===currentCity?'selected':''}>${c}</option>`).join(''); document.getElementById('uCity').innerHTML=cities.map(c=>`<option>${c}</option>`).join(''); changeCity(currentCity);}
+function changeCity(c){currentCity=c; localStorage.setItem('ustadnow_city',c); document.getElementById('cityName').innerText=c; document.getElementById('menuCity').innerText=c; renderServices();}
 document.getElementById('citySelect').addEventListener('change',e=>changeCity(e.target.value));
 function renderServices(){
-let pop=allServices.slice(0,6);
-document.getElementById('serviceGrid').innerHTML=pop.map(s=>`<div class='bg-[#FFFEF7] rounded-xl border border-[#e8e0c0] shadow-sm overflow-hidden'><img src='${s.img}' class='h-24 w-full object-cover'><div class='p-2'><h3 class='font-bold text-xs text-[#3d4a1e]'>${s.name}</h3><p class='font-black text-[#556B2F] text-xs'>PKR ${s.price}</p><button onclick="book('${s.name}')" class='w-full mt-1 bg-[#556B2F] text-white py-1.5 rounded text-xs font-bold'>Book</button></div></div>`).join('')+`<div class='col-span-2 bg-[#3d4a1e] text-[#FFF8DC] rounded-xl p-4 flex flex-col items-center justify-center cursor-pointer' onclick='openServicesMenu()'><p class='text-3xl'>⋮</p><p class='font-bold text-sm'>View All 15 Services</p><p class='text-[10px] opacity-80'>Baqi services 3 dots menu me</p></div>`;
+// NO VIEW ALL BAR - ONLY SERVICES
+document.getElementById('serviceGrid').innerHTML=allServices.map(s=>`<div class='bg-[#FFFEF7] rounded-xl border shadow-sm overflow-hidden'><img src='${s.img}' class='h-24 w-full object-cover'><div class='p-2'><h3 class='font-bold text-xs'>${s.name}</h3><p class='font-black text-[#556B2F] text-xs'>PKR ${s.price}</p><button onclick="book('${s.name}')" class='w-full mt-1 bg-[#556B2F] text-white py-1.5 rounded text-xs font-bold'>Book</button></div></div>`).join('');
 }
-function openServicesMenu(){
-document.getElementById('servicesMenu').classList.remove('hidden');
-document.getElementById('menuServicesList').innerHTML=allServices.map(s=>`<div class='flex items-center gap-3 p-3 border-b hover:bg-white cursor-pointer' onclick="book('${s.name}');closeServicesMenu()"><img src='${s.img}' class='w-12 h-12 rounded-lg object-cover'><div class='flex-1'><p class='font-bold text-xs text-[#3d4a1e]'>${s.name}</p><p class='text-[10px] text-[#556B2F]'>${s.desc} - PKR ${s.price}</p></div><span class='text-[#556B2F]'>›</span></div>`).join('');
-}
+function openServicesMenu(){document.getElementById('servicesMenu').classList.remove('hidden'); document.getElementById('menuServicesList').innerHTML=allServices.map(s=>`<div class='flex gap-3 p-3 border-b cursor-pointer' onclick="book('${s.name}');closeServicesMenu()"><img src='${s.img}' class='w-12 h-12 rounded object-cover'><div class='flex-1'><p class='font-bold text-xs'>${s.name}</p><p class='text-[10px]'>PKR ${s.price}</p></div><span>›</span></div>`).join('');}
 function closeServicesMenu(){document.getElementById('servicesMenu').classList.add('hidden');}
 function openUstadReg(){document.getElementById('ustadRegModal').style.display='block';} function closeUstadReg(){document.getElementById('ustadRegModal').style.display='none';}
-function openReviews(){document.getElementById('reviewsModal').style.display='block'; document.getElementById('reviewsList').innerHTML=`<div class='bg-white p-3 rounded border'><b>Ali - ${currentCity} ★★★★★</b><p class='text-sm'>Best service 0306-5005474</p></div><div class='bg-white p-3 rounded border'><b>Fatima - ${currentCity} ★★★★★</b><p class='text-sm'>Ustad time pe aya</p></div>`;} function closeReviews(){document.getElementById('reviewsModal').style.display='none';}
-function openLiveTrack(){document.getElementById('liveTrackModal').style.display='block';} function closeLiveTrack(){document.getElementById('liveTrackModal').style.display='none';}
+function openReviews(){alert("Reviews - 4.8 ★ - Call 0306-5005474");} function openLiveTrack(){alert("Live Tracking - 0306-5005474");}
 function book(s){selService=s; document.getElementById('bTitle').innerText=s+" in "+currentCity; document.getElementById('bookModal').style.display='flex';} function closeBook(){document.getElementById('bookModal').style.display='none';}
-function confirmBook(){let n=cName.value,p=cPhone.value,ct=cCity.value; if(!n||!p){alert("Naam Phone likho");return;} let b={service:selService,name:n,phone:p,city:ct}; document.getElementById('liveTrackingBox').classList.remove('hidden'); document.getElementById('liveTrackingBox').innerHTML=`<b>🔴 ${b.service} in ${b.city} - ${b.name} - Ustad on the way</b> - ${WHATSAPP}`; try{firebase.database().ref('bookings').push(b);}catch(e){} window.open(`https://wa.me/${WHATSAPP}?text=Booking ${ct} ${selService} ${n} ${p}`,'_blank'); closeBook();}
-function submitUstad(){let n=uName.value,p=uPhone.value,c=uCity.value,sk=uSkill.value; if(!n||!p){alert("Name Phone");return;} window.open(`https://wa.me/${WHATSAPP}?text=Ustad Reg ${c} ${n} ${p} ${sk}`,'_blank'); closeUstadReg();}
-const firebaseConfig={databaseURL:"https://ustadnow-default-rtdb.firebaseio.com/"}; try{firebase.initializeApp(firebaseConfig);}catch(e){}
-initCities();
+function confirmBook(){let n=cName.value,p=cPhone.value; if(!n||!p){alert("Naam Phone");return;} window.open(`https://wa.me/${WHATSAPP}?text=Booking ${currentCity} ${selService} ${n} ${p}`,'_blank'); closeBook();}
+function submitUstad(){window.open(`https://wa.me/${WHATSAPP}?text=Ustad ${uCity.value} ${uName.value} ${uPhone.value}`,'_blank'); closeUstadReg();}
+try{firebase.initializeApp({databaseURL:"https://ustadnow-default-rtdb.firebaseio.com/"});}catch(e){}
+init();
 </script></body></html>
