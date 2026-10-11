@@ -1,42 +1,42 @@
-<!DOCTYPE html>
-<html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>UstadNow</title><script src="https://cdn.tailwindcss.com"></script>
+<!DOCTYPE html><html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>UstadNow - Final</title><script src="https://cdn.tailwindcss.com"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
 </head><body class="bg-[#FFF8DC]">
 
-<header class="bg-[#FFFEF7] shadow sticky top-0 z-50">
-<div class="max-w-7xl mx-auto px-3 py-3 flex justify-between items-center">
-<div class="flex items-center gap-3">
-<div class="bg-[#556B2F] text-white w-16 h-16 rounded-xl flex items-center justify-center font-black text-3xl">U</div>
-<span class="font-black text-[28px] text-[#3d4a1e]">UstadNow</span>
-</div>
-<div class="flex gap-2">
-<select id="citySelect" class="border-2 border-[#556B2F] rounded-full px-3 py-2 text-xs font-bold bg-[#FFFEF7]"></select>
-<button onclick="openServicesMenu()" class="w-12 h-12 rounded-full bg-[#556B2F] text-white text-3xl font-bold">⋮</button>
-</div></div></header>
+<div id="loginScreen" class="fixed inset-0 bg-[#FFF8DC] z-[200] flex items-center justify-center p-4">
+<div class="bg-[#FFFEF7] rounded-2xl p-6 w-full max-w-sm border-2 border-[#556B2F] shadow-2xl">
+<div class="text-center"><div class="bg-[#556B2F] text-white w-20 h-20 rounded-xl flex items-center justify-center font-black text-4xl mx-auto">U</div>
+<h1 class="font-black text-3xl text-[#3d4a1e] mt-3">UstadNow</h1><p class="text-xs text-[#556B2F] font-bold">0306-5005474 • 35 CITIES</p></div>
+<div class="mt-6"><h3 class="font-bold text-sm">User Login</h3>
+<input id="loginPhone" placeholder="Phone 0306..." class="w-full border-2 rounded-lg p-3 mt-2">
+<input id="loginPass" type="password" placeholder="Password 1234" class="w-full border-2 rounded-lg p-3 mt-2">
+<button onclick="doUserLogin()" class="w-full bg-[#556B2F] text-white py-3 rounded-lg mt-3 font-bold">Login & Open App</button></div>
+<div class="border-t mt-6 pt-4"><h3 class="font-bold text-xs">🔐 Admin Login</h3>
+<input id="adminPhone" placeholder="Admin Phone" class="w-full border rounded p-2 mt-1 text-xs">
+<input id="adminPass" type="password" placeholder="admin123" class="w-full border rounded p-2 mt-1 text-xs">
+<button onclick="doAdminLogin()" class="w-full bg-black text-white py-2 rounded mt-2 text-xs font-bold">Admin Login</button></div>
+</div></div>
 
-<!-- TOP 3 BOXES -->
+<div id="mainApp" class="hidden">
+<header class="bg-[#FFFEF7] shadow sticky top-0 z-50"><div class="max-w-7xl mx-auto px-3 py-3 flex justify-between items-center">
+<div class="flex items-center gap-2"><div class="bg-[#556B2F] text-white w-16 h-16 rounded-xl flex items-center justify-center font-black text-3xl">U</div><span class="font-black text-2xl text-[#3d4a1e]">UstadNow</span></div>
+<div class="flex items-center gap-2"><span id="userShow" class="text-[10px] font-bold bg-[#e8e0c0] px-2 py-1 rounded-full"></span><select id="citySelect" class="border-2 border-[#556B2F] rounded-full px-3 py-2 text-xs font-bold"></select><button onclick="logout()" class="bg-red-600 text-white px-3 py-2 rounded-full text-[10px] font-bold">Logout</button><button onclick="openServicesMenu()" class="w-10 h-10 rounded-full bg-[#556B2F] text-white text-2xl font-bold">⋮</button></div></div></header>
+
 <div class="max-w-7xl mx-auto px-3 mt-4 grid grid-cols-1 md:grid-cols-3 gap-3">
 <div class="bg-[#FFFEF7] border rounded-2xl p-4"><p class="font-bold text-sm">🔴 Live Tracking</p><button onclick="openLiveTrack()" class="w-full mt-2 bg-[#556B2F] text-white py-2 rounded-full text-xs font-bold">Track My Ustad</button></div>
-<div class="bg-[#FFFEF7] border rounded-2xl p-4"><p class="font-bold text-sm">⭐ 4.8 Reviews</p><button onclick="openReviews()" class="w-full mt-2 bg-[#e8e0c0] text-[#3d4a1e] py-2 rounded-full text-xs font-bold">Read Reviews</button></div>
+<div class="bg-[#FFFEF7] border rounded-2xl p-4"><p class="font-bold text-sm">⭐ 4.8 Reviews</p><button onclick="openReviews()" class="w-full mt-2 bg-[#e8e0c0] py-2 rounded-full text-xs font-bold">Read Reviews</button></div>
 <div class="bg-[#FFFEF7] border rounded-2xl p-4"><p class="font-bold text-sm">🛠️ Ustad Reg</p><button onclick="openUstadReg()" class="w-full mt-2 bg-black text-white py-2 rounded-full text-xs font-bold">Register</button></div>
 </div>
 
 <section class="py-4 text-center"><h1 class="text-3xl font-black text-[#3d4a1e]">Pakistan's #1 <span id="cityName">Lahore</span> Service</h1></section>
-
-<div class="max-w-7xl mx-auto px-3 pb-8">
-<div id="serviceGrid" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div>
+<div class="max-w-7xl mx-auto px-3 pb-8"><div id="serviceGrid" class="grid grid-cols-2 md:grid-cols-3 gap-3"></div></div>
 </div>
 
-<!-- 3 DOTS MENU -->
-<div id="servicesMenu" class="fixed inset-0 bg-black/50 hidden z-[95]" onclick="closeServicesMenu()">
-<div class="absolute right-0 top-0 h-full w-[90%] max-w-[360px] bg-[#FFFEF7] overflow-auto" onclick="event.stopPropagation()">
-<div class="p-4 bg-[#3d4a1e] text-white flex justify-between"><h3 class="font-black text-sm">ALL 15 - <span id="menuCity">Lahore</span></h3><button onclick="closeServicesMenu()" class="w-8 h-8 bg-white/20 rounded-full">✕</button></div>
-<div id="menuServicesList"></div>
-</div></div>
+<div id="adminPanel" class="fixed inset-0 bg-[#FFF8DC] hidden z-[150] p-4 overflow-auto"><div class="max-w-4xl mx-auto"><div class="flex justify-between bg-[#3d4a1e] text-white p-4 rounded-xl"><h2 class="font-black">Admin Panel - 0306-5005474</h2><button onclick="closeAdmin()" class="bg-white/20 px-4 py-2 rounded-full">✕ Go to App</button></div><div id="adminBookings" class="mt-4 bg-white rounded p-3 border text-xs">Bookings loading...</div><button onclick="logout()" class="mt-4 w-full bg-red-600 text-white py-2 rounded">Logout</button></div></div>
 
-<div id="ustadRegModal" class="fixed inset-0 bg-[#FFF8DC] hidden z-[90] p-4 overflow-auto"><div class="max-w-xl mx-auto"><div class="flex justify-between"><h2 class="font-black text-xl">Become Ustad</h2><button onclick="closeUstadReg()" class="bg-black text-white px-4 py-2 rounded">✕</button></div><input id="uName" placeholder="Name" class="w-full border p-3 mt-4 rounded"><input id="uPhone" placeholder="Phone" class="w-full border p-3 mt-2 rounded"><select id="uCity" class="w-full border p-3 mt-2 rounded"></select><button onclick="submitUstad()" class="w-full bg-[#556B2F] text-white py-3 rounded mt-3 font-bold">Submit 0306-5005474</button></div></div>
+<div id="servicesMenu" class="fixed inset-0 bg-black/50 hidden z-[95]" onclick="closeServicesMenu()"><div class="absolute right-0 top-0 h-full w-[90%] max-w-[360px] bg-[#FFFEF7] overflow-auto" onclick="event.stopPropagation()"><div class="p-4 bg-[#3d4a1e] text-white flex justify-between"><h3 class="font-black text-sm">ALL 15 - <span id="menuCity">Lahore</span></h3><button onclick="closeServicesMenu()" class="w-8 h-8 bg-white/20 rounded-full">✕</button></div><div id="menuServicesList"></div></div></div>
+<div id="ustadRegModal" class="fixed inset-0 bg-[#FFF8DC] hidden z-[90] p-4 overflow-auto"><div class="max-w-xl mx-auto"><div class="flex justify-between"><h2 class="font-black text-xl">Become Ustad</h2><button onclick="closeUstadReg()" class="bg-black text-white px-4 py-2 rounded">✕</button></div><input id="uName" placeholder="Name" class="w-full border p-3 mt-4 rounded"><input id="uPhone" placeholder="Phone" class="w-full border p-3 mt-2 rounded"><select id="uCity" class="w-full border p-3 mt-2 rounded"></select><button onclick="submitUstad()" class="w-full bg-[#556B2F] text-white py-3 rounded mt-3 font-bold">Submit</button></div></div>
 <div id="bookModal" class="fixed inset-0 bg-black/60 hidden items-center justify-center p-4 z-50"><div class="bg-white rounded-2xl p-6 w-full max-w-md"><h3 id="bTitle" class="font-black"></h3><input id="cName" placeholder="Naam" class="w-full border p-3 mt-3 rounded"><input id="cPhone" placeholder="Phone" class="w-full border p-3 mt-2 rounded"><button onclick="confirmBook()" class="w-full bg-[#556B2F] text-white py-3 rounded mt-3 font-bold">Confirm</button><button onclick="closeBook()" class="w-full bg-gray-200 py-2 rounded mt-2">Cancel</button></div></div>
 
 <script>
@@ -45,7 +45,7 @@ const cities=["Lahore","Karachi","Islamabad","Rawalpindi","Faisalabad","Multan",
 const allServices=[
 {name:"Electrician",price:799,img:"https://images.unsplash.com/photo-1621905251189-08b45d6a269e?w=600"},
 {name:"Plumber",price:899,img:"https://images.unsplash.com/photo-1607472586893-edb57bdc0e39?w=600"},
-{name:"AC Technician",price:1499,img:"https://images.unsplash.com/photo-1631541909061-71e349d1f203?w=600"},
+{name:"AC Technician",price:1499,img:"https://images.pexels.com/photos/9242901/pexels-photo-9242901.jpeg?auto=compress&cs=tinysrgb&w=600"},
 {name:"Carpenter",price:899,img:"https://images.unsplash.com/photo-1581539250439-c96689b516dd?w=600"},
 {name:"Painter",price:999,img:"https://images.unsplash.com/photo-1562259949-e8e7689d7828?w=600"},
 {name:"Cleaner",price:799,img:"https://images.unsplash.com/photo-1581578731548-c64695cc6952?w=600"},
@@ -60,20 +60,22 @@ const allServices=[
 {name:"Movers",price:2499,img:"https://images.unsplash.com/photo-1600518464441-9154a4dea21b?w=600"}
 ];
 let currentCity=localStorage.getItem('ustadnow_city')||"Lahore"; let selService="";
-function init(){document.getElementById('citySelect').innerHTML=cities.map(c=>`<option ${c===currentCity?'selected':''}>${c}</option>`).join(''); document.getElementById('uCity').innerHTML=cities.map(c=>`<option>${c}</option>`).join(''); changeCity(currentCity);}
-function changeCity(c){currentCity=c; localStorage.setItem('ustadnow_city',c); document.getElementById('cityName').innerText=c; document.getElementById('menuCity').innerText=c; renderServices();}
-document.getElementById('citySelect').addEventListener('change',e=>changeCity(e.target.value));
-function renderServices(){
-// NO VIEW ALL BAR - ONLY SERVICES
-document.getElementById('serviceGrid').innerHTML=allServices.map(s=>`<div class='bg-[#FFFEF7] rounded-xl border shadow-sm overflow-hidden'><img src='${s.img}' class='h-24 w-full object-cover'><div class='p-2'><h3 class='font-bold text-xs'>${s.name}</h3><p class='font-black text-[#556B2F] text-xs'>PKR ${s.price}</p><button onclick="book('${s.name}')" class='w-full mt-1 bg-[#556B2F] text-white py-1.5 rounded text-xs font-bold'>Book</button></div></div>`).join('');
-}
-function openServicesMenu(){document.getElementById('servicesMenu').classList.remove('hidden'); document.getElementById('menuServicesList').innerHTML=allServices.map(s=>`<div class='flex gap-3 p-3 border-b cursor-pointer' onclick="book('${s.name}');closeServicesMenu()"><img src='${s.img}' class='w-12 h-12 rounded object-cover'><div class='flex-1'><p class='font-bold text-xs'>${s.name}</p><p class='text-[10px]'>PKR ${s.price}</p></div><span>›</span></div>`).join('');}
-function closeServicesMenu(){document.getElementById('servicesMenu').classList.add('hidden');}
-function openUstadReg(){document.getElementById('ustadRegModal').style.display='block';} function closeUstadReg(){document.getElementById('ustadRegModal').style.display='none';}
-function openReviews(){alert("Reviews - 4.8 ★ - Call 0306-5005474");} function openLiveTrack(){alert("Live Tracking - 0306-5005474");}
-function book(s){selService=s; document.getElementById('bTitle').innerText=s+" in "+currentCity; document.getElementById('bookModal').style.display='flex';} function closeBook(){document.getElementById('bookModal').style.display='none';}
-function confirmBook(){let n=cName.value,p=cPhone.value; if(!n||!p){alert("Naam Phone");return;} window.open(`https://wa.me/${WHATSAPP}?text=Booking ${currentCity} ${selService} ${n} ${p}`,'_blank'); closeBook();}
+function checkLogin(){let u=localStorage.getItem('ustadnow_user'); let a=localStorage.getItem('ustadnow_admin'); if(a){loginScreen.classList.add('hidden'); adminPanel.classList.remove('hidden');} else if(u){loginScreen.classList.add('hidden'); mainApp.classList.remove('hidden'); userShow.innerText=u; initApp();}}
+function doUserLogin(){let p=loginPhone.value, ps=loginPass.value; if(!p){alert("Phone likho");return;} if(ps!=="1234" && ps!==""){alert("Password 1234");return;} localStorage.setItem('ustadnow_user',p); loginScreen.classList.add('hidden'); mainApp.classList.remove('hidden'); userShow.innerText=p; initApp();}
+function doAdminLogin(){let p=adminPhone.value, ps=adminPass.value; if((p.includes("3065005474")||p.includes("0306")) && ps==="admin123"){localStorage.setItem('ustadnow_admin','admin'); loginScreen.classList.add('hidden'); adminPanel.classList.remove('hidden'); loadAdminData();} else alert("Admin: 0306-5005474 / admin123");}
+function closeAdmin(){adminPanel.classList.add('hidden'); mainApp.classList.remove('hidden'); userShow.innerText=localStorage.getItem('ustadnow_user')||"Admin"; initApp();}
+function logout(){localStorage.clear(); location.reload();}
+function initApp(){citySelect.innerHTML=cities.map(c=>`<option ${c===currentCity?'selected':''}>${c}</option>`).join(''); uCity.innerHTML=cities.map(c=>`<option>${c}</option>`).join(''); changeCity(currentCity); citySelect.addEventListener('change',e=>changeCity(e.target.value));}
+function changeCity(c){currentCity=c; localStorage.setItem('ustadnow_city',c); cityName.innerText=c; menuCity.innerText=c; renderServices();}
+function renderServices(){serviceGrid.innerHTML=allServices.map(s=>`<div class='bg-[#FFFEF7] rounded-xl border shadow-sm overflow-hidden'><img src='${s.img}' class='h-24 w-full object-cover'><div class='p-2'><h3 class='font-bold text-xs'>${s.name}</h3><p class='font-black text-[#556B2F] text-xs'>PKR ${s.price}</p><button onclick="book('${s.name}')" class='w-full mt-1 bg-[#556B2F] text-white py-1.5 rounded text-xs font-bold'>Book</button></div></div>`).join('');}
+function openServicesMenu(){servicesMenu.classList.remove('hidden'); menuServicesList.innerHTML=allServices.map(s=>`<div class='flex gap-3 p-3 border-b cursor-pointer' onclick="book('${s.name}');closeServicesMenu()"><img src='${s.img}' class='w-12 h-12 rounded object-cover'><div class='flex-1'><p class='font-bold text-xs'>${s.name}</p><p class='text-[10px]'>PKR ${s.price}</p></div><span>›</span></div>`).join('');}
+function closeServicesMenu(){servicesMenu.classList.add('hidden');}
+function openUstadReg(){ustadRegModal.style.display='block';} function closeUstadReg(){ustadRegModal.style.display='none';}
+function openReviews(){alert("4.8 Stars - Best Service");} function openLiveTrack(){alert("Live Tracking - Call 0306-5005474");}
+function book(s){selService=s; bTitle.innerText=s+" in "+currentCity; bookModal.style.display='flex';} function closeBook(){bookModal.style.display='none';}
+function confirmBook(){let n=cName.value,p=cPhone.value; if(!n||!p){alert("Naam Phone");return;} try{firebase.database().ref('bookings').push({service:selService,name:n,phone:p,city:currentCity,time:Date.now()});}catch(e){} window.open(`https://wa.me/${WHATSAPP}?text=Booking ${currentCity} ${selService} ${n} ${p}`,'_blank'); closeBook();}
 function submitUstad(){window.open(`https://wa.me/${WHATSAPP}?text=Ustad ${uCity.value} ${uName.value} ${uPhone.value}`,'_blank'); closeUstadReg();}
+function loadAdminData(){try{firebase.database().ref('bookings').on('value',s=>{let d=s.val(); if(!d)return; let a=Object.values(d); adminBookings.innerHTML=a.reverse().slice(0,30).map(b=>`<div class='border-b py-2'>${b.service} - ${b.name} - ${b.phone} - ${b.city}</div>`).join('');});}catch(e){}}
 try{firebase.initializeApp({databaseURL:"https://ustadnow-default-rtdb.firebaseio.com/"});}catch(e){}
-init();
+checkLogin();
 </script></body></html>
