@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>UstadNow - On Demand Ustad Service</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif}
+body{background:#f4f7fe;color:#1a1a1a;min-height:100vh}
+.header{background:#ffffff;border-bottom:1px solid #e5eaf5;padding:12px 16px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50;box-shadow:0 2px 10px rgba(0,0,0,0.05)}
+.logo{width:42px;height:42px;border-radius:12px;background:#0b63f6;display:flex;align-items:center;justify-content:center;font-size:20px;color:#fff}
+.logo-area{display:flex;align-items:center;gap:10px}
+.logo-area h1{font-size:16px;font-weight:700;color:#0b63f6;line-height:1.1}
+.logo-area h1 span{display:block;font-size:10px;color:#6b7a99;font-weight:400}
+.bell-wrap{position:relative;cursor:pointer;background:#eef2ff;width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;border:1px solid #dbe2ff}
+.bell-badge{position:absolute;top:-5px;right:-5px;background:#ff3b5c;color:#fff;font-size:10px;font-weight:800;min-width:18px;height:18px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+.role-badge{background:#0b63f6;color:#fff;padding:5px 12px;border-radius:20px;font-size:10px;font-weight:700}
+.wrap{max-width:500px;margin:0 auto;padding:14px}
+.card{background:#ffffff;border:1px solid #e5eaf5;border-radius:16px;padding:16px;margin-bottom:14px;box-shadow:0 4px 12px rgba(15,30,100,0.04)}
+.card-title{font-size:14px;font-weight:700;color:#1a2b5a;margin-bottom:12px;display:flex;align-items:center;gap:6px}
+.tabs{display:flex;gap:8px;margin-bottom:14px;overflow-x:auto}
+.tab{padding:9px 16px;border-radius:24px;background:#eef2ff;border:1px solid #dbe2ff;color:#5a6a9a;font-size:11px;font-weight:600;cursor:pointer;white-space:nowrap}
+.tab.active{background:#0b63f6;color:#fff;border-color:#0b63f6}
+.input,.select,textarea{width:100%;background:#f8faff;border:1.5px solid #dbe2ff;color:#1a2b5a;padding:12px 14px;border-radius:12px;margin-top:10px;font-size:13px;outline:none}
+.btn{width:100%;background:#0b63f6;color:#fff;border:none;padding:13px;border-radius:12px;font-weight:700;font-size:13px;margin-top:12px;cursor:pointer}
+.btn2{background:#eef2ff;color:#5a6a9a;border:1px solid #dbe2ff}
+.btn-whatsapp{background:#25D366;color:#fff}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#f8faff;border-radius:14px;padding:12px;text-align:center;border:1px solid #e5eaf5}
+.stat b{font-size:18px;color:#0b63f6;display:block}
+.stat span{font-size:10px;color:#6b7a99}
+.ustad-row,.booking-row{background:#f8faff;border-radius:12px;padding:12px;margin-bottom:8px;border-left:4px solid #0b63f6;display:flex;justify-content:space-between;align-items:center}
+.badge{padding:4px 9px;border-radius:20px;font-size:9px;font-weight:700}
+.b-online{background:#22c55e;color:#fff}
+.b-offline{background:#a0aec0;color:#fff}
+.b-city{background:#0b63f6;color:#fff}
+.modal{position:fixed;inset:0;background:rgba(0,0,0,0.5);display:none;align-items:flex-start;justify-content:flex-end;z-index:100}
+.modal.open{display:flex}
+.modal-box{background:#ffffff;width:85%;max-width:360px;height:100%;padding:16px;overflow-y:auto}
+.notif{background:#f8faff;border:1px solid #e5eaf5;border-radius:12px;padding:10px;margin-bottom:8px}
+.login-wrap{min-height:88vh;display:flex;align-items:center;justify-content:center}
+.login-card{width:100%;background:#fff;border:1px solid #e5eaf5;border-radius:20px;padding:22px;box-shadow:0 10px 30px rgba(15,30,100,0.08)}
+.login-card h2{text-align:center;color:#0b63f6;font-size:22px;margin-bottom:4px}
+.login-card p{text-align:center;color:#6b7a99;font-size:11px;margin-bottom:14px}
+.city-chips{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.chip{padding:6px 12px;border-radius:20px;background:#eef2ff;border:1px solid #dbe2ff;color:#0b63f6;font-size:11px;cursor:pointer}
+.chip.active{background:#0b63f6;color:#fff}
+</style>
+</head>
+<body>
+<div class="header">
+<div class="logo-area"><div class="logo">🔧</div><h1>UstadNow.com<span>On-Demand Ustad Service Pakistan</span></h1></div>
+<div style="display:flex;gap:10px;align-items:center"><div class="bell-wrap" onclick="openBell()"><span style="font-size:18px">🔔</span><div class="bell-badge" id="bellBadge" style="display:none">0</div></div><div class="role-badge" id="roleBadge">CUSTOMER</div></div>
+</div>
+<div class="wrap">
+<div id="loginView" class="login-wrap"><div class="login-card">
+<h2>UstadNow 🔧</h2><p>Apna Ustad Ab Ek Click Par</p>
+<div class="tabs" style="justify-content:center"><div class="tab active" onclick="setLoginRole('customer',this)">Customer</div><div class="tab" onclick="setLoginRole('ustad',this)">Ustad</div><div class="tab" onclick="setLoginRole('admin',this)">Admin</div></div>
+<div id="customerLogin"><input class="input" id="cName" placeholder="Apna Naam"><input class="input" id="cPhone" placeholder="WhatsApp Number 03xx-xxxxxxx"><select class="select" id="cCity"><option>Faisalabad</option><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Multan</option><option>Gujranwala</option><option>Sialkot</option><option>Rawalpindi</option></select><button class="btn" onclick="loginCustomer()">Customer Continue</button></div>
+<div id="ustadLogin" style="display:none"><input class="input" id="uName" placeholder="Ustad Naam"><input class="input" id="uPhone" placeholder="WhatsApp 03xx"><select class="select" id="uSkill"><option>Electrician</option><option>Plumber</option><option>AC Technician</option><option>Carpenter</option><option>Painter</option><option>Welder</option><option>Mechanic</option><option>Mason - Raj Mistri</option><option>Tile / Marble Fixer</option><option>POP / False Ceiling</option><option>Solar Panel Installer</option><option>CCTV Installer</option><option>Home Cleaner</option><option>Washing Machine / Fridge Repair</option><option>Generator / UPS Repair</option><option>Aluminium / Glass Work</option><option>Water Motor / Bore</option><option>Wood Polish</option></select><select class="select" id="uCity"><option>Faisalabad</option><option>Lahore</option><option>Karachi</option><option>Islamabad</option><option>Multan</option><option>Gujranwala</option><option>Sialkot</option><option>Rawalpindi</option></select><input class="input" id="uRate" type="number" placeholder="Per Visit Rate Rs e.g 800"><button class="btn" onclick="registerUstad()">Ustad Register / Login</button></div>
+<div id="adminLogin" style="display:none"><input class="input" id="adminPass" type="password" placeholder="Admin Password"><button class="btn" onclick="loginAdmin()">Admin Login</button><p style="font-size:10px;margin-top:6px;color:#6b7a99">Pass: admin123</p></div>
+</div></div>
+<div id="customerView" style="display:none">
+<div class="card"><div class="card-title">🔧 Mistri Book Karo - Apna Kaam Select Karo</div>
+<select class="select" id="bookSkill"><option>Electrician</option><option>Plumber</option><option>AC Technician</option><option>Carpenter</option><option>Painter</option><option>Welder</option><option>Mechanic</option><option>Mason - Raj Mistri</option><option>Tile / Marble Fixer</option><option>POP / False Ceiling</option><option>Solar Panel Installer</option><option>CCTV Installer</option><option>Home Cleaner</option><option>Washing Machine / Fridge Repair</option><option>Generator / UPS Repair</option><option>Aluminium / Glass Work</option><option>Water Motor / Bore</option><option>Wood Polish</option></select>
+<textarea id="bookProblem" rows="3" placeholder="Masla tafseel se likhein..."></textarea>
+<input class="input" id="bookAddress" placeholder="Mukammal Address - Area, Gali, City">
+<div style="display:flex;gap:8px"><button class="btn" style="flex:1" onclick="createBooking()">🔔 Bell Bhejo Sab Ustadon Ko</button><button class="btn btn2" onclick="logout()">Logout</button></div>
+</div>
+<div class="card"><div class="card-title">🧑‍🔧 Available Ustad - <span id="custCityLabel"></span></div><div id="custUstadList"></div></div>
+<div class="card"><div class="card-title">📋 Meri Bookings</div><div id="custBookings"></div></div>
+</div>
+<div id="ustadView" style="display:none">
+<div class="grid2"><div class="stat"><b id="uTotalBookings">0</b><span>Total Jobs</span></div><div class="stat"><b id="uWallet">0 Rs</b><span>Wallet</span></div></div>
+<div class="card" style="margin-top:12px"><div class="card-title">⚡ Status <span id="uOnlineBadge" class="badge b-online" style="margin-left:auto">ONLINE</span></div><div style="display:flex;gap:8px;margin-top:8px"><button class="btn" style="flex:1" id="toggleOnlineBtn" onclick="toggleOnline()">Online Hu</button><button class="btn btn2" onclick="logout()">Logout</button></div><div style="margin-top:10px;font-size:11px;color:#6b7a99">Skill: <b id="uSkillLabel"></b> | City: <b id="uCityLabel"></b> | Rate: <b id="uRateLabel"></b></div></div>
+<div class="card"><div class="card-title">🔔 New Booking Requests</div><div id="ustadBookings"></div></div>
+<div class="card"><div class="card-title">✅ Meri Accepted Bookings</div><div id="ustadAccepted"></div></div>
+</div>
+<div id="adminView" style="display:none">
+<div class="grid2"><div class="stat"><b id="aTotalUstads">0</b><span>Total Ustad</span></div><div class="stat"><b id="aTotalBookings">0</b><span>Total Bookings</span></div><div class="stat"><b id="aTotalEarn">0 Rs</b><span>Commission</span></div><div class="stat"><b id="aCities">8</b><span>Cities</span></div></div>
+<div class="card" style="margin-top:12px"><div class="card-title">🏙️ City Filter</div><div class="city-chips"><div class="chip active" onclick="filterAdminCity('all',this)">All</div><div class="chip" onclick="filterAdminCity('Faisalabad',this)">Faisalabad</div><div class="chip" onclick="filterAdminCity('Lahore',this)">Lahore</div><div class="chip" onclick="filterAdminCity('Karachi',this)">Karachi</div><div class="chip" onclick="filterAdminCity('Islamabad',this)">Islamabad</div></div></div>
+<div class="card"><div class="card-title">🧑‍🔧 All Ustads</div><div id="adminUstadList"></div></div>
+<div class="card"><div class="card-title">📋 All Bookings</div><div id="adminBookingList"></div></div>
+<button class="btn btn2" onclick="logout()">Logout Admin</button>
+</div>
+</div>
+<div class="modal" id="bellModal" onclick="if(event.target==this)closeBell()"><div class="modal-box"><h3 style="color:#0b63f6;font-size:14px;margin-bottom:10px">🔔 Notifications <span style="float:right;cursor:pointer" onclick="closeBell()">✕</span></h3><div id="notifList"></div><button class="btn" onclick="testBell()">🔔 Test Bell</button><button class="btn btn2" onclick="clearNotifs()">Clear All</button></div></div>
+<audio id="bellAudio" preload="auto"><source src="https://actions.google.com/sounds/v1/alarms/beep_short.ogg" type="audio/ogg"></audio>
+<script>
+const LS_KEY='ustadnow_v4_light';
+let db=JSON.parse(localStorage.getItem(LS_KEY)||'null')||{ustads:[],bookings:[],notifs:[],current:null,adminCity:'all'};
+function save(){localStorage.setItem(LS_KEY,JSON.stringify(db))}
+function setLoginRole(r,el){document.querySelectorAll('#loginView .tab').forEach(t=>t.classList.remove('active'));el.classList.add('active');document.getElementById('customerLogin').style.display=r=='customer'?'block':'none';document.getElementById('ustadLogin').style.display=r=='ustad'?'block':'none';document.getElementById('adminLogin').style.display=r=='admin'?'block':'none';}
+function loginCustomer(){let n=document.getElementById('cName').value.trim(),p=document.getElementById('cPhone').value.trim(),c=document.getElementById('cCity').value;if(!n||!p){alert('Naam aur Number likhein');return}db.current={role:'customer',name:n,phone:p,city:c};save();showView();}
+function registerUstad(){let n=document.getElementById('uName').value.trim(),p=document.getElementById('uPhone').value.trim(),s=document.getElementById('uSkill').value,c=document.getElementById('uCity').value,r=document.getElementById('uRate').value||500;if(!n||!p){alert('Naam aur Number zaroori');return}let ex=db.ustads.find(u=>u.phone==p);if(ex){ex.name=n;ex.city=c;ex.skill=s;ex.rate=r;}else{db.ustads.push({id:Date.now(),name:n,phone:p,skill:s,city:c,rate:parseInt(r),online:true,bookings:0,wallet:0,rating:5});}db.current={role:'ustad',phone:p};save();showView();}
+function loginAdmin(){if(document.getElementById('adminPass').value!=='admin123'){alert('Wrong');return}db.current={role:'admin'};save();showView();}
+function logout(){db.current=null;save();showView()}
+function showView(){let cur=db.current;document.getElementById('loginView').style.display=cur?'none':'flex';document.getElementById('customerView').style.display=cur&&cur.role=='customer'?'block':'none';document.getElementById('ustadView').style.display=cur&&cur.role=='ustad'?'block':'none';document.getElementById('adminView').style.display=cur&&cur.role=='admin'?'block':'none';document.getElementById('roleBadge').textContent=cur?cur.role.toUpperCase():'CUSTOMER';if(cur&&cur.role=='customer'){document.getElementById('custCityLabel').textContent=cur.city;renderCustUstads();renderCustBookings();}if(cur&&cur.role=='ustad'){renderUstadView()}if(cur&&cur.role=='admin'){renderAdmin()}updateBell();}
+function createBooking(){let s=document.getElementById('bookSkill').value,p=document.getElementById('bookProblem').value.trim(),a=document.getElementById('bookAddress').value.trim(),cust=db.current;if(!p||!a){alert('Masla aur Address likhein');return}let b={id:Date.now(),custName:cust.name,custPhone:cust.phone,city:cust.city,skill:s,problem:p,address:a,status:'pending',time:Date.now(),acceptedBy:null};db.bookings.unshift(b);let m=db.ustads.filter(u=>u.city==cust.city&&u.skill==s&&u.online);m.forEach(u=>{db.notifs.unshift({id:Date.now()+Math.random(),for:u.phone,text:`🔔 NEW! ${s} chahiye ${cust.city} me - ${p.substring(0,50)}`,time:Date.now()});});db.notifs.unshift({id:Date.now(),for:'customer_'+cust.phone,text:`Booking ${m.length} ustadon ko bheji gayi`,time:Date.now()});save();playBell();vibrate();document.getElementById('bookProblem').value='';document.getElementById('bookAddress').value='';alert(`Bell! ${m.length} ustadon ko gaya`);showView();}
+function renderCustUstads(){let cust=db.current;let list=db.ustads.filter(u=>u.city==cust.city&&u.online);document.getElementById('custUstadList').innerHTML=list.length?list.map(u=>`<div class="ustad-row"><div><b>${u.name}</b> <span class="badge b-city">${u.skill}</span><div style="font-size:10px;color:#6b7a99">⭐ ${u.rating} | ${u.bookings} jobs | ${u.rate} Rs | ${u.phone}</div></div><div><button class="btn" style="padding:7px 12px;font-size:11px;width:auto;margin:0" onclick="openWhats('${u.phone}','${u.name}')">WhatsApp</button></div></div>`).join(''):`<p style="font-size:11px;color:#6b7a99">Is city me koi online ustad nahi</p>`;}
+function renderCustBookings(){let ph=db.current.phone;let list=db.bookings.filter(b=>b.custPhone==ph);document.getElementById('custBookings').innerHTML=list.length?list.map(b=>`<div class="booking-row"><div><b>${b.skill}</b> - ${b.status.toUpperCase()}<div style="font-size:10px;color:#6b7a99">${b.problem} | ${b.address}</div><div style="font-size:9px">${new Date(b.time).toLocaleString()}</div></div>${b.acceptedBy?`<button class="btn" style="width:auto;padding:6px 10px;font-size:10px" onclick="openWhats('${(db.ustads.find(u=>u.id==b.acceptedBy)||{}).phone||''}','Ustad')">WhatsApp</button>`:''}</div>`).join(''):'<p style="font-size:11px;color:#6b7a99">Koi booking nahi</p>';}
+function renderUstadView(){let me=db.ustads.find(u=>u.phone==db.current.phone);if(!me){logout();return}document.getElementById('uSkillLabel').textContent=me.skill;document.getElementById('uCityLabel').textContent=me.city;document.getElementById('uRateLabel').textContent=me.rate+' Rs';document.getElementById('uTotalBookings').textContent=me.bookings;document.getElementById('uWallet').textContent=me.wallet+' Rs';document.getElementById('uOnlineBadge').textContent=me.online?'ONLINE':'OFFLINE';document.getElementById('uOnlineBadge').className='badge '+(me.online?'b-online':'b-offline');document.getElementById('toggleOnlineBtn').textContent=me.online?'🔴 Offline':'🟢 Online';let pending=db.bookings.filter(b=>b.city==me.city&&b.skill==me.skill&&b.status=='pending');document.getElementById('ustadBookings').innerHTML=pending.length?pending.map(b=>`<div class="booking-row"><div><b>${b.custName}</b> - ${b.skill}<div style="font-size:10px;color:#6b7a99">${b.problem}</div><div style="font-size:10px">${b.address} | ${b.custPhone}</div></div><div style="display:flex;flex-direction:column;gap:5px"><button class="btn" style="padding:6px 10px;font-size:11px;width:auto;margin:0" onclick="acceptBooking(${b.id})">ACCEPT</button><button class="btn btn-whatsapp" style="padding:6px 10px;font-size:11px;width:auto;margin:0" onclick="openWhats('${b.custPhone}','${b.custName}')">WhatsApp</button></div></div>`).join(''):'<p style="font-size:11px;color:#6b7a99">Koi new request nahi</p>';let acc=db.bookings.filter(b=>b.acceptedBy==me.id);document.getElementById('ustadAccepted').innerHTML=acc.length?acc.map(b=>`<div class="booking-row" style="border-left-color:#22c55e"><div><b>${b.custName}</b> - ${b.status}<div style="font-size:10px">${b.problem}</div></div><div><button class="btn btn2" style="width:auto;padding:6px 10px;font-size:10px" onclick="completeBooking(${b.id})">${b.status=='accepted'?'Complete':'Done'}</button></div></div>`).join(''):'<p style="font-size:11px;color:#6b7a99">Koi accepted nahi</p>';}
+function toggleOnline(){let me=db.ustads.find(u=>u.phone==db.current.phone);me.online=!me.online;save();renderUstadView();}
+function acceptBooking(id){let b=db.bookings.find(x=>x.id==id);let me=db.ustads.find(u=>u.phone==db.current.phone);if(!b||b.status!='pending'){alert('Taken');return}b.status='accepted';b.acceptedBy=me.id;me.bookings++;me.wallet+=me.rate;db.notifs.unshift({id:Date.now(),for:'customer_'+b.custPhone,text:`✅ ${me.name} ne booking accept ki!`,time:Date.now()});save();playBell();renderUstadView();}
+function completeBooking(id){let b=db.bookings.find(x=>x.id==id);b.status='completed';save();renderUstadView();}
+function renderAdmin(){let city=db.adminCity;let ustads=city=='all'?db.ustads:db.ustads.filter(u=>u.city==city);let bookings=city=='all'?db.bookings:db.bookings.filter(b=>b.city==city);document.getElementById('aTotalUstads').textContent=db.ustads.length;document.getElementById('aTotalBookings').textContent=db.bookings.length;document.getElementById('aTotalEarn').textContent=(db.bookings.filter(b=>b.status=='completed').length*150)+' Rs';document.getElementById('adminUstadList').innerHTML=ustads.length?ustads.map(u=>`<div class="ustad-row"><div><b>${u.name}</b> <span class="badge b-city">${u.city}</span> <span class="badge ${u.online?'b-online':'b-offline'}">${u.online?'ON':'OFF'}</span><div style="font-size:10px;color:#6b7a99">${u.skill} | ${u.phone}</div></div><button class="btn btn2" style="width:auto;padding:4px 8px;font-size:10px" onclick="toggleUstadAdmin(${u.id})">${u.online?'Offline':'Online'}</button></div>`).join(''):'<p>No ustad</p>';document.getElementById('adminBookingList').innerHTML=bookings.length?bookings.map(b=>`<div class="booking-row"><div><b>${b.custName} → ${b.skill}</b> - ${b.status}<div style="font-size:10px;color:#6b7a99">${b.city} | ${b.problem}</div></div><div style="font-size:9px">${new Date(b.time).toLocaleString()}</div></div>`).join(''):'<p>No bookings</p>';}
+function filterAdminCity(c,el){db.adminCity=c;document.querySelectorAll('.city-chips .chip').forEach(ch=>ch.classList.remove('active'));el.classList.add('active');renderAdmin();}
+function toggleUstadAdmin(id){let u=db.ustads.find(x=>x.id==id);u.online=!u.online;save();renderAdmin()}
+function openBell(){document.getElementById('bellModal').classList.add('open');renderNotifs()}
+function closeBell(){document.getElementById('bellModal').classList.remove('open')}
+function addNotif(t){db.notifs.unshift({id:Date.now(),for:db.current?(db.current.role=='ustad'?db.current.phone:'customer_'+db.current.phone):'all',text:t,time:Date.now()});save();updateBell()}
+function renderNotifs(){let cur=db.current;let list=[];if(!cur)list=db.notifs.slice(0,20);else if(cur.role=='ustad')list=db.notifs.filter(n=>n.for==cur.phone||n.for=='all');else if(cur.role=='customer')list=db.notifs.filter(n=>n.for=='customer_'+cur.phone||n.for=='all');else list=db.notifs;document.getElementById('notifList').innerHTML=list.length?list.map(n=>`<div class="notif"><div style="font-size:11px;color:#1a2b5a">${n.text}</div><div style="font-size:9px;color:#6b7a99;margin-top:4px">${new Date(n.time).toLocaleString()}</div></div>`).join(''):'<p style="font-size:11px;color:#6b7a99">Koi notification nahi</p>';}
+function updateBell(){let cur=db.current;let c=0;if(cur&&cur.role=='ustad')c=db.notifs.filter(n=>n.for==cur.phone).length;else if(cur&&cur.role=='customer')c=db.notifs.filter(n=>n.for=='customer_'+cur.phone).length;else c=db.notifs.length;let b=document.getElementById('bellBadge');if(c>0){b.style.display='flex';b.textContent=c>9?'9+':c}else b.style.display='none';}
+function clearNotifs(){let cur=db.current;if(!cur)db.notifs=[];else if(cur.role=='ustad')db.notifs=db.notifs.filter(n=>n.for!=cur.phone);else if(cur.role=='customer')db.notifs=db.notifs.filter(n=>n.for!='customer_'+cur.phone);else db.notifs=[];save();renderNotifs();updateBell();}
+function playBell(){let a=document.getElementById('bellAudio');a.currentTime=0;a.play().catch(()=>{});}
+function vibrate(){if(navigator.vibrate)navigator.vibrate([200,100,200]);}
+function testBell(){playBell();vibrate();addNotif('🔔 Test bell working!');renderNotifs();updateBell();}
+function openWhats(ph,name){if(!ph)return;let num=ph.replace(/[^0-9]/g,'');if(num.startsWith('0'))num='92'+num.substring(1);if(!num.startsWith('92'))num='92'+num;let msg=encodeURIComponent(`Salam ${name}, UstadNow se booking ke liye`);window.open(`https://wa.me/${num}?text=${msg}`,'_blank');}
+showView();
+</script>
+</body>
+</html>
